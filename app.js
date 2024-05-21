@@ -5,7 +5,7 @@ import {applyNoAuthRoutes} from "./routers/NoAuthRoutes.js";
 import {applyAuthRoutes} from "./routers/AuthRoutes.js";
 import applyAdminRoutes from "./routers/AdminRoutes.js";
 import setupSocketServer from "./socketServer.js";
-import setupDB from "./setupDB.js";
+import setupDB from "./databaseSQL/setupDB.js";
 
 config();
 const app = express();

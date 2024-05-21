@@ -19,7 +19,7 @@ export default async function setupDB() {
     if (process.env.SET_UP_SQL_SCRIPT) {
         console.warn("Set up sql script")
         const __dirname = path.resolve(path.dirname(''));
-        const setupSQL = fs.readFileSync(path.resolve(__dirname, "setup.sql"), "utf8");
+        const setupSQL = fs.readFileSync(path.resolve(__dirname, "./databaseSQL/setup.sql"), "utf8");
         await db.query(setupSQL);
     }
     return db
