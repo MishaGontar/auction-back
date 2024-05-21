@@ -10,6 +10,8 @@ import {
     UPDATE_AUCTION_BY_ID_WITHOUT_IMG
 } from "../../databaseSQL/auction/AuctionSqlQuery.js";
 import {getRowsOrThrowException} from "../../utils.js";
+import LotService from "../lot/LotService.js";
+import ImageService from "../image/ImageService.js";
 
 class AuctionService {
     async createAuction(db, formData) {
@@ -71,9 +73,20 @@ class AuctionService {
         return auction
     }
 
-    async deleteAuction(db, auction_id) {
-        const result = await db.query(DELETE_AUCTION_BY_ID, [auction_id])
-        return getRowsOrThrowException(result, "Not delete auction")[0]
+    async deleteAuction(db, {auction_id, auction_img_path}) {
+        const lots = await LotService.getAuctionLots(db, auction_id);
+        if (lots.length === 0) {
+            console.warn(`Not found lots for auction ${auction_id}`)
+        }
+
+        for (const lot of lots) {
+            await LotService.deleteLot(db, lot.id)
+        }
+
+        const query_result = await db.query(DELETE_AUCTION_BY_ID, [auction_id])
+        const result = getRowsOrThrowException(query_result, "Not delete auction")[0]
+        await ImageService.deleteImageByUrl(db, auction_img_path)
+        return result
     }
 
     async getAllAuctions(db) {

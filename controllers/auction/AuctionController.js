@@ -2,7 +2,6 @@ import AuctionService from "../../services/auction/AuctionService.js";
 import ImageService from "../../services/image/ImageService.js";
 import {SOMETHING_WENT_WRONG} from "../../TextConstant.js";
 import {checkFormDataWithFile, deleteRequestFiles, getErrorResponse} from "../../utils.js";
-import LotService from "../../services/lot/LotService.js";
 
 class AuctionController {
     async getAuctionStatuses(req, res) {
@@ -112,22 +111,10 @@ class AuctionController {
         try {
             const auction_id = +req.params.id;
             const auction = await AuctionService.getAuctionById(req.db, auction_id)
-
             if (req.user.seller_id !== auction.seller_id) {
                 throw new Error("You are not a owner!")
             }
-            const lots = await LotService.getAuctionLots(req.db, auction_id);
-            if (lots.length === 0) {
-                console.warn(`Not found lots for auction ${auction_id}`)
-            }
-
-            for (const lot of lots) {
-                await LotService.deleteLot(req.db, lot.id)
-            }
-
-            const result = await AuctionService.deleteAuction(req.db, auction_id)
-            await ImageService.deleteImageByUrl(req.db, auction.auction_img_path)
-
+            const result = await AuctionService.deleteAuction(req.db, auction)
             res.status(200).send({is_success: result})
         } catch (e) {
             console.error('deleteAuction', e)

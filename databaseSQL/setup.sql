@@ -30,38 +30,25 @@ create table if not exists users
     username     varchar(255)          not null unique,
     password     varchar(255)          not null,
     email        varchar(255)          not null,
-    img_path     integer DEFAULT 1 REFERENCES images (id),
+    image_id     integer DEFAULT 1 REFERENCES images (id),
     is_activated boolean default false not null
 );
-comment on column users.is_activated is 'need to be activate by email';
 
 -- TEST USER
 INSERT INTO users (username, password, email, is_activated)
 VALUES ('misha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('sasha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('mirko', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('pili', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('aldo', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('marta', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('ciel', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('landon', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('matia', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('alma', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('eliora', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('catrine', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('brandon', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('hannah', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('david', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('emma', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('felix', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('grace', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('ian', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('julia', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('kevin', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('luna', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('nina', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('oscar', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('pablo', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true);
+       ('sasha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'afgfduzbf@yomail.info', true),
+       ('mirko', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'knwkmwfqf@emlpro.com', true),
+       ('pili', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'fya2k7p6@flymail.tk', true),
+       ('aldo', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'ayccneirg@emltmp.com', true),
+       ('marta', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'afqfonfodfbvjo@dropmail.me', true),
+       ('ciel', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'qkbdktknf@emlhub.com', true),
+       ('landon', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'j1jf0j2x@spymail.one', true),
+       ('matia', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'j1jf3c7g@spymail.one', true),
+       ('alma', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'iebymwfqf@emlpro.com', true),
+       ('eliora', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'fpfhktknf@emlhub.com', true),
+       ('catrine', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'j1jf745x@spymail.one', true),
+       ('brandon', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'd0dod1wedak3@10mail.xyz', true);
 -- END TEST DATA
 
 CREATE TABLE admins
@@ -94,9 +81,9 @@ create table if not exists seller_status
 );
 
 INSERT INTO seller_status (id, name)
-VALUES (1, 'pending'),
-       (2, 'accepted'),
-       (3, 'rejected');
+VALUES (1, 'очікування'),
+       (2, 'підтверджено'),
+       (3, 'відхилено');
 
 CREATE TABLE IF NOT EXISTS sellers
 (
@@ -110,55 +97,34 @@ CREATE TABLE IF NOT EXISTS sellers
     phone_number varchar(20)
 );
 
--- TEST NOT ACTIVATE AUCTION
+-- Тестові продавці
 INSERT INTO sellers (user_id, full_name, social_media, status_id, address, description, phone_number)
-VALUES (3, 'John Doe', 'instagram:JohnDoe', 1, '123 Main St, City',
-        'Experienced seller specializing in antiques.',
+VALUES (3, 'Іван Петренко', 'instagram:IvanPetrenko', 1, 'вул. Головна 123, Місто',
+        'Досвідчений продавець, спеціалізується на антикваріаті.',
         '123-456-7890'),
-       (4, 'Alice Smith', 'twitter:AliceSmith', 3, '456 Elm St, Town', 'Passionate about vintage collectibles.',
+       (4, 'Олена Смирнова', 'twitter:OlenaSmirnova', 3, 'вул. Ялинкова 456, Селище',
+        'Пристрасно захоплюється вінтажними колекціями.',
         '234-567-8901'),
-       (5, 'Bob Johnson', 'instagram:BobJohnson', 2, '789 Oak Ave, Village',
-        'Art enthusiast with a focus on modern paintings.', '345-678-9012'),
-       (6, 'Emma Brown', 'twitter:EmmaBrown', 2, '987 Pine Rd, Suburb',
-        'Dedicated seller of rare books and manuscripts.', '456-789-0123'),
-       (7, 'David Wilson', 'instagram:DavidWilson', 3, '321 Cedar Ln, County',
-        'Expert in vintage jewelry and gemstones.', '567-890-1234'),
-       (8, 'Sophia Lee', 'twitter:SophiaLee', 1, '654 Birch Blvd, Rural',
-        'Specializes in handmade crafts and pottery.', '678-901-2345'),
-       (9, 'James Taylor', 'instagram:JamesTaylor', 1, '876 Maple Dr, Forest',
-        'Passionate about classic cars and automobilia.', '789-012-3456'),
-       (10, 'Olivia White', 'twitter:OliviaWhite', 2, '543 Oakwood Ave, Mountain',
-        'Collects and sells vintage vinyl records.', '890-123-4567'),
-       (11, 'William Clark', 'instagram:WilliamClark', 3, '234 Spruce Ct, Valley',
-        'Avid collector of rare coins and currency.', '901-234-5678'),
-       (12, 'Grace Baker', 'twitter:GraceBaker', 3, '789 Pinecrest Rd, Canyon',
-        'Specializes in antique furniture restoration.', '012-345-6789'),
-       (13, 'Brandon', 'instagram:Brandon', 1, '100 Elm St, Town', 'Passionate about vintage toys.',
-        '345-678-9012'),
-       (14, 'Hannah', 'twitter:Hannah', 1, '200 Oak Ave, Village', 'Specializes in rare comic books.',
-        '456-789-0123'),
-       (15, 'David', 'instagram:David', 2, '300 Pine Rd, Suburb', 'Collector of vintage watches.',
-        '567-890-1234'),
-       (16, 'Emma', 'twitter:Emma', 2, '400 Cedar Ln, County', 'Expert in antique pottery.', '678-901-2345'),
-       (17, 'Felix', 'instagram:Felix', 3, '500 Birch Blvd, Rural', 'Specializes in vintage clothing.',
-        '789-012-3456'),
-       (18, 'Grace', 'twitter:Grace', 1, '600 Maple Dr, Forest', 'Passionate about rare musical instruments.',
-        '890-123-4567'),
-       (19, 'Ian', 'instagram:Ian', 2, '700 Oakwood Ave, Mountain', 'Collector of antique cameras.',
-        '901-234-5678'),
-       (20, 'Julia', 'twitter:Julia', 3, '800 Spruce Ct, Valley', 'Avid seller of rare stamps.',
-        '012-345-6789'),
-       (21, 'Kevin', 'instagram:Kevin', 3, '900 Pinecrest Rd, Canyon',
-        'Specializes in vintage sports memorabilia.', '123-456-7890'),
-       (22, 'Luna', 'twitter:Luna', 1, '1000 Elm St, Town', 'Collector of classic vinyl records.',
-        '234-567-8901'),
-       (23, 'Nina', 'instagram:Nina', 2, '1100 Oak Ave, Village', 'Specializes in antique books.',
-        '345-678-9012'),
-       (24, 'Oscar', 'twitter:Oscar', 3, '1200 Pine Rd, Suburb', 'Passionate about vintage jewelry.',
-        '456-789-0123'),
-       (25, 'Pablo', 'instagram:Pablo', 1, '1300 Cedar Ln, County', 'Expert in rare collectibles.',
-        '567-890-1234');
+       (5, 'Богдан Іванов', 'instagram:BohdanIvanov', 2, 'вул. Дубова 789, Село',
+        'Поціновувач мистецтва з акцентом на сучасний живопис.', '345-678-9012'),
+       (6, 'Анастасія Браун', 'twitter:AnastasiaBraun', 2, 'вул. Соснова 987, Передмістя',
+        'Відданий продавець рідкісних книг та рукописів.', '456-789-0123'),
+       (7, 'Давид Вілсон', 'instagram:DavidWilson', 3, 'вул. Кедрова 321, Район',
+        'Експерт у вінтажних прикрасах та коштовностях.', '567-890-1234'),
+       (8, 'Софія Лі', 'twitter:SophiaLee', 1, 'вул. Березова 654, Село',
+        'Спеціалізується на ручних ремеслах та кераміці.', '678-901-2345'),
+       (9, 'Максим Тейлор', 'instagram:MaximTaylor', 1, 'вул. Кленова 876, Ліс',
+        'Пристрасний поціновувач класичних автомобілів.', '789-012-3456'),
+       (10, 'Ольга Білоус', 'twitter:OlgaBilaus', 2, 'вул. Дубова 543, Гори',
+        'Збирає та продає вінтажні вінілові платівки.', '890-123-4567'),
+       (11, 'Віталій Кларк', 'instagram:VitaliyClark', 3, 'вул. Ялинкова 234, Долина',
+        'Пристрасний колекціонер рідкісних монет та валюти.', '901-234-5678'),
+       (12, 'Ганна Бейкер', 'twitter:HannaBaker', 3, 'вул. Соснова 789, Каньйон',
+        'Спеціалізується на реставрації антикварних меблів.', '012-345-6789'),
+       (13, 'Богдан', 'instagram:Bohdan', 1, 'вул. Ялинкова 100, Селище', 'Пристрасний колекціонер вінтажних іграшок.',
+        '345-678-9012');
 -- END DATA
+
 
 create table if not exists auction_status
 (
@@ -167,10 +133,10 @@ create table if not exists auction_status
 );
 
 INSERT INTO auction_status (id, name)
-VALUES (1, 'open'),
-       (2, 'only by url'),
-       (3, 'closed'),
-       (4, 'finished');
+VALUES (1, 'відкритий'),
+       (2, 'тільки по url'),
+       (3, 'закритий'),
+       (4, 'завершений');
 
 CREATE TABLE IF NOT EXISTS auctions
 (
@@ -204,8 +170,7 @@ CREATE TABLE IF NOT EXISTS lot_bet
     lot_id       integer   NOT NULL REFERENCES lots (id) ON DELETE CASCADE,
     user_id      integer REFERENCES users (id) ON DELETE CASCADE,
     amount       integer   NOT NULL DEFAULT 0,
-    date_created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    date_updated timestamp
+    date_created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS lot_winner

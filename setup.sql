@@ -30,7 +30,7 @@ create table if not exists users
     username     varchar(255)          not null unique,
     password     varchar(255)          not null,
     email        varchar(255)          not null,
-    img_path     integer DEFAULT 1 REFERENCES images (id),
+    image_id     integer DEFAULT 1 REFERENCES images (id),
     is_activated boolean default false not null
 );
 comment on column users.is_activated is 'need to be activate by email';
@@ -204,8 +204,7 @@ CREATE TABLE IF NOT EXISTS lot_bet
     lot_id       integer   NOT NULL REFERENCES lots (id) ON DELETE CASCADE,
     user_id      integer REFERENCES users (id) ON DELETE CASCADE,
     amount       integer   NOT NULL DEFAULT 0,
-    date_created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    date_updated timestamp
+    date_created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS lot_winner

@@ -4,9 +4,8 @@ export const SELECT_LOT_BET_BY_LOT_ID = `
            lb.user_id,
            lb.amount,
            lb.date_created,
-           lb.date_updated,
            u.username,
-           u.img_path
+           u.image_id
     FROM lot_bet lb
              LEFT JOIN users u ON lb.user_id = u.id
     WHERE lb.lot_id = $1
@@ -16,7 +15,7 @@ export const SELECT_LOT_BET_BY_LOT_ID = `
 export const INSERT_LOT_BET = `
     INSERT INTO lot_bet (lot_id, user_id, amount)
     VALUES ($1, $2, $3)
-    RETURNING id AS bet_id, lot_id, user_id, amount, date_created ,date_updated;
+    RETURNING id AS bet_id, lot_id, user_id, amount, date_created;
 `
 
 export const DELETE_LOT_BET_BY_ID_AND_LOT_BET_ID = `

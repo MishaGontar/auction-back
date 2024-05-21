@@ -3,8 +3,6 @@ import LoginFailedException from "../../exceptions/LoginFailedException.js";
 import bcrypt from "bcrypt";
 import {UPDATE_USER_ACTIVATION_STATUS} from "../../databaseSQL/user/UserSqlQuery.js";
 import CannotActivateAccountException from "../../exceptions/CannotActivateAccountException.js";
-import SellerController from "../../controllers/seller/SellerController.js";
-import SellerService from "../seller/SellerService.js";
 
 class LoginService {
     async handleLogin(db, {login, password}) {
@@ -27,6 +25,7 @@ class LoginService {
             let newUser = await db.query(UPDATE_USER_ACTIVATION_STATUS, [true, user.user_id]);
             return newUser.rows[0];
         } catch (e) {
+            console.error("activateAccount error", e)
             throw new CannotActivateAccountException();
         }
     }

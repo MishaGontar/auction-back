@@ -1,31 +1,43 @@
-export const SOMETHING_WENT_WRONG = "Something went wrong. Try again.";
+export const SOMETHING_WENT_WRONG = "Щось не так з сервером. Спробуйте знову.";
 
 // AuthController
-export const INCORRECT_DATA = "Failed to login. Incorrect data.";
-export const CANNOT_ACTIVATE_ACCOUNT = "Sorry but now we can't activate your account. Please try again later or call us.";
-export const USER_IS_ALREADY_EXIST = "User with this username or email is already exist!";
-export const SELLER_IS_ALREADY_EXIST = "Seller is already exist!";
+export const INCORRECT_DATA = "Не вдалося ввійти. Невірні дані.";
+export const CANNOT_ACTIVATE_ACCOUNT = "Вибачте, але зараз ми не можемо активувати ваш обліковий запис. Спробуйте пізніше або зателефонуйте нам.";
+export const USER_IS_ALREADY_EXIST = "Користувач із цим логіном або електронною поштою вже існує!";
+export const SELLER_IS_ALREADY_EXIST = "Продавець вже є!";
 
-export const AUTH_FAILED_MSG = "Failed to authenticate. Try again.";
-export const NEED_CONFIRM_EMAIL_MSG = "You need confirm email !";
-export const AUTH_TOKEN_FAILED_MSG = "Token not found";
+export const AUTH_FAILED_MSG = "Не вдалося автентифікувати. Спробуйте знову.";
+export const NEED_CONFIRM_EMAIL_MSG = "Вам потрібно підтвердити електронну адресу!";
+export const AUTH_TOKEN_FAILED_MSG = "Token не знайдено";
 
-export const AUTH_DATA_REQUIRED_MSG = "Login data is required";
+export const AUTH_DATA_REQUIRED_MSG = "Необхідні дані для входу";
 //////////
 
 
 // EMAIL TEXT
-export const EMAIL_CONG_MSG = "We are pleased to inform you that your account on AuctionPlus is now set up as a seller. This means you can create auction rooms and post your lots for bidding."
-export const EMAIL_CONG_MSG2 = "As a seller , you have a wide range of options for organizing auctions and sales. You can create new lots, set price ranges, provide additional information about your lots, and more."
-export const EMAIL_CONG_OUTRO_MSG = "If you have any questions or need further assistance, please do not hesitate to contact us. We are always ready to help you use our auction service as efficiently as possible."
-export const EMAIL_SUBJECT_CONGRATULATIONS_SELLER = 'Congratulations! You are now a seller on AuctionPlus'
-export const EMAIL_CONFIRM_SUBJECT_MSG = 'Confirm email in'
-export const EMAIL_CONFIRM_HTML_MSG = 'Your code to confirm identity: '
-export const EMAIL_REJECT_SELLER_HEADER = `Rejected your request to become a seller in`
+export const EMAIL_CONG_MSG_HTML = "<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff;\">\n" +
+    "                <h2 style=\"color: #333333;\">Вітаємо на AuctionPlus!</h2>\n" +
+    "                <p style=\"font-size: 16px; color: #555555; line-height: 1.6;\">\n" +
+    "                    Ми раді повідомити вам, що ваш обліковий запис на <strong>AuctionPlus</strong> тепер налаштовано як продавець. Це означає, що ви можете створювати аукціонні кімнати та публікувати свої лоти для торгів.\n" +
+    "                </p>\n" +
+    "                <p style=\"font-size: 16px; color: #555555; line-height: 1.6;\">\n" +
+    "                    Ви як продавець маєте широкий спектр можливостей для організації аукціонів і розпродажів. Ви можете створювати нові лоти, встановлювати ціни, надавати додаткову інформацію про свої лоти тощо.\n" +
+    "                </p>\n" +
+    "                <p style=\"font-size: 16px; color: #555555; line-height: 1.6;\">\n" +
+    "                    Якщо у вас виникли запитання або потрібна додаткова допомога, будь ласка, не соромтеся зв’язатися з нами. Ми завжди готові допомогти вам використовувати наш аукціонний сервіс максимально ефективно.\n" +
+    "                </p>\n" +
+    "                <p style=\"font-size: 14px; color: #999999; text-align: center; margin-top: 20px;\">\n" +
+    "                    З повагою,<br/>Команда AuctionPlus\n" +
+    "                </p>\n" +
+    "            </div>"
+export const EMAIL_SUBJECT_CONGRATULATIONS_SELLER = 'Щиро вітаю! Тепер ви продавець на AuctionsPlus'
+export const EMAIL_CONFIRM_SUBJECT_MSG = 'Підтвердьте електронну адресу'
+export const EMAIL_CONFIRM_HTML_MSG = 'Ваш код для підтвердження особи: '
+export const EMAIL_REJECT_SELLER_HEADER = `Відхилено ваш запит стати продавцем у`
 export const EMAIL_REJECT_SELLER_HTML = ` <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
-        <h2 style="color: #ff0000;">Dear Participant,</h2>
-        <p>Thank you for your application to become a seller. Unfortunately, after careful consideration of your application, we regret to inform you that you have not been selected as a seller.</p>
-        <p>Best regards,<br>The AuctionPulse Team</p>
-    </div>`
-export const INCORRECT_VERIFY_CODE = "The entered code is incorrect."
+         <h2 style="color: #ff0000;">Шановний учаснику!</h2>
+         <p>Дякуємо за вашу заявку стати продавцем. На жаль, після ретельного розгляду вашої заявки ми з жалем повідомляємо, що вас не було обрано як продавця.</p>
+         <p>З повагою,<br>Команда AuctionPulse</p>
+     </div>`
+export const INCORRECT_VERIFY_CODE = "Введений код неправильний."
 ///////////

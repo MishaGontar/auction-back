@@ -90,5 +90,5 @@ export const DELETE_AUCTION_BY_ID = `
 export const SELECT_ONLY_AUCTION_CREATE_STATUS = `
     SELECT *
     from auction_status
-    WHERE name != 'finished'
+    WHERE name != 'завершений'
 `

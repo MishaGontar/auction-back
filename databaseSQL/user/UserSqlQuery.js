@@ -1,15 +1,3 @@
-export const SELECT_USER_ID_BY_EMAIL = `
-    SELECT u.id AS user_id,
-           u.username,
-           u.email,
-           u.password,
-           u.is_activated,
-           i.image_url
-    FROM users u
-             JOIN images i ON u.img_path = i.id
-    WHERE u.email = $1`;
-
-
 export const SELECT_USER_BY_USERNAME_OR_EMAIL = `
     SELECT u.id AS user_id,
            u.username,
@@ -18,19 +6,20 @@ export const SELECT_USER_BY_USERNAME_OR_EMAIL = `
            u.is_activated,
            i.image_url
     FROM users u
-             JOIN images i ON u.img_path = i.id
+             JOIN images i ON u.image_id = i.id
     WHERE u.username = $1
        OR u.email = $1
 `;
 
 export const SELECT_USER_BY_USERNAME_OR_EMAIL_WITH_EMAIL = `
-    SELECT u.id    AS user_id,
+    SELECT u.id AS user_id,
            u.username,
            u.email,
            u.password,
-           u.is_activated, i.image_url
+           u.is_activated,
+           i.image_url
     FROM users u
-             JOIN images i ON u.img_path = i.id
+             JOIN images i ON u.image_id = i.id
     WHERE u.username = $1
        OR u.email = $2
 `;
@@ -47,6 +36,13 @@ export const UPDATE_USER_ACTIVATION_STATUS = `
     SET is_activated = $1
     FROM images AS i
     WHERE u.id = $2
-      AND u.img_path = i.id
+      AND u.image_id = i.id
     RETURNING u.id as user_id, u.username, u.email, u.is_activated, i.image_url
 `;
+
+export const DELETE_USER_BY_ID = `
+    DELETE
+    from users
+    where id = $1
+    returning *
+`

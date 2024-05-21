@@ -1,5 +1,7 @@
 import {getErrorResponse, getUserFromRequest} from "../../utils.js";
 import LotBetService from "../../services/lot/LotBetService.js";
+import UserService from "../../services/user/UserService.js";
+import AuctionService from "../../services/auction/AuctionService.js";
 
 class UserController {
     getUser(req, res) {
@@ -23,6 +25,23 @@ class UserController {
             res.status(200).send(bets)
         } catch (e) {
             console.error(`getUserBets error: `, e)
+            return getErrorResponse(res, e)
+        }
+    }
+
+    async deleteUserById(req, res) {
+        const {user_id, seller_id} = req.user;
+        try {
+            if (seller_id) {
+                const auctions = await AuctionService.getAuctionsBySellerId(req.db, seller_id);
+                for (const auction of auctions) {
+                    await AuctionService.deleteAuction(req.db, auction)
+                }
+            }
+            const user = await UserService.deleteUserById(req.db, user_id)
+            return res.status(200).send({message: 'User deleted', user: user})
+        } catch (e) {
+            console.error(`deleteUserById `, e)
             return getErrorResponse(res, e)
         }
     }

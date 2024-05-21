@@ -13,7 +13,7 @@ export const SELECT_ADMIN_BY_LOGIN = `
            images.image_url
     FROM admins
              INNER JOIN users ON admins.user_id = users.id
-             LEFT JOIN images ON users.img_path = images.id
+             LEFT JOIN images ON users.image_id = images.id
     WHERE admins.login = $1;
 `;
 

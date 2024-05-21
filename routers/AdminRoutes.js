@@ -1,4 +1,4 @@
-import AdminController from "../controllers/admin/AdminController.js";
+    import AdminController from "../controllers/admin/AdminController.js";
 import SellerController from "../controllers/seller/SellerController.js";
 
 // don't forget add app.use(AuthController.authenticateToken) before use method
@@ -8,6 +8,6 @@ export default function applyAdminRoutes(app) {
     app.post("/admin/check", AdminController.check)
     app.get("/sellers", SellerController.getSellers)
     app.get("/sellers/status", SellerController.getSellersStatuses)
-    app.post("/seller/accept", SellerController.acceptSeller)
-    app.post("/seller/reject", SellerController.rejectSeller)
+    app.post("/seller/2", SellerController.acceptSeller)
+    app.post("/seller/3", SellerController.rejectSeller)
 }
