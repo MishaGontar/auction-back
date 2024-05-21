@@ -1,5 +1,6 @@
 import {SELECT_ADMIN_BY_LOGIN, SELECT_ADMIN_BY_USER_ID} from "../../databaseSQL/admin/AdminSqlQuery.js";
 import bcrypt from "bcrypt";
+import Error503 from "../../exceptions/Error503.js";
 
 class AdminService {
     async handleLogin(db, form_data) {
@@ -7,17 +8,17 @@ class AdminService {
         const admin = await this.findAdminByLogin(db, login);
 
         if (!admin) {
-            throw new Error("Can't find admin")
+            throw new Error503("Не знайшли адміністратора")
         }
 
         const passwordMatch = await bcrypt.compare(password, admin.admin_password);
         if (!passwordMatch) {
-            throw new Error("Password is not match")
+            throw new Error503("Паролі не збігаються")
         }
 
         const secureCodeMatch = await bcrypt.compare(secure_code, admin.secure_code);
         if (!secureCodeMatch) {
-            throw new Error("Secure code is not correct")
+            throw new Error503("Захисний код неправильний")
         }
         delete admin.admin_password;
         delete admin.secure_code

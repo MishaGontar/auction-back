@@ -11,7 +11,7 @@ class UserController {
             return res.status(200).send(user)
         } catch (e) {
             console.log("Error during getUsername ", e)
-            return res.status(400).send({message: 'Can`t find username'})
+            return res.status(400).send({message: 'Не змогли отримати користувача'})
         }
     }
 
@@ -19,10 +19,7 @@ class UserController {
         const {user} = getUserFromRequest(req)
         try {
             const bets = await LotBetService.getBetsForUser(req.db, user.user_id)
-            if (!bets) {
-                return res.status(200).send({message: 'No bets found.'})
-            }
-            res.status(200).send(bets)
+            res.status(200).send({bets: bets || null})
         } catch (e) {
             console.error(`getUserBets error: `, e)
             return getErrorResponse(res, e)
@@ -39,7 +36,7 @@ class UserController {
                 }
             }
             const user = await UserService.deleteUserById(req.db, user_id)
-            return res.status(200).send({message: 'User deleted', user: user})
+            return res.status(200).send({message: 'Користувач видалився', user: user})
         } catch (e) {
             console.error(`deleteUserById `, e)
             return getErrorResponse(res, e)

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import LotBetService from "../../services/lot/LotBetService.js";
 import LotService from "../../services/lot/LotService.js";
+import Error403 from "../../exceptions/Error403.js";
 
 class SocketController {
     constructor() {
@@ -11,7 +12,7 @@ class SocketController {
         const token = socket.handshake.auth.token;
 
         if (!this.validateAuthToken(token)) {
-            return next(new Error('Authentication error'));
+            return next(new Error403('Помилка аутентифікації'));
         }
         socket.db = db;
         return next();

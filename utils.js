@@ -1,5 +1,6 @@
 import {SOMETHING_WENT_WRONG} from "./TextConstant.js";
 import fs from "node:fs";
+import Error404 from "./exceptions/Error404.js";
 
 export function generateRandomString(minLength) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -21,9 +22,12 @@ export function getErrorResponse(res, error) {
     let status = 500;
     let message = SOMETHING_WENT_WRONG;
     switch (error.status) {
-        case 503:
-        case 422:
+        case 400:
         case 401:
+        case 403:
+        case 404:
+        case 422:
+        case 503:
             status = error.status;
             message = error.message;
             break;
@@ -82,14 +86,19 @@ export function checkFormDataWithFile(req) {
     const data = req.body;
     const files = req.file || req.files;
     if (!data || !files) {
-        throw new Error("Not found data")
+        throw new Error404("Not found data")
     }
 }
 
 export function getRowsOrThrowException(result, msg) {
     const rows = result.rows
     if (rows.length === 0) {
-        throw new Error(msg)
+        throw new Error404(msg)
     }
     return rows
+}
+
+export function getFirstRowOrNull(result) {
+    const rows = result.rows
+    return rows.length === 0 ? null : rows[0]
 }

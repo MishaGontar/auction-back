@@ -1,23 +1,24 @@
 import AuctionService from "../../services/auction/AuctionService.js";
 import ImageService from "../../services/image/ImageService.js";
-import {SOMETHING_WENT_WRONG} from "../../TextConstant.js";
 import {checkFormDataWithFile, deleteRequestFiles, getErrorResponse} from "../../utils.js";
 
 class AuctionController {
     async getAuctionStatuses(req, res) {
-        const statuses = await AuctionService.getAuctionStatuses(req.db)
-        if (!statuses) {
-            return res.status(403).send({message: 'Can`t find any status'})
+        try {
+            const statuses = await AuctionService.getAuctionStatuses(req.db)
+            return res.status(200).send({statuses: statuses})
+        } catch (e) {
+            return getErrorResponse(res, e)
         }
-        return res.status(200).send({statuses: statuses})
     }
 
     async getAuctionCreateStatuses(req, res) {
-        const statuses = await AuctionService.getOnlyAuctionCreateStatus(req.db)
-        if (!statuses) {
-            return res.status(403).send({message: 'Can`t find any status'})
+        try {
+            const statuses = await AuctionService.getOnlyAuctionCreateStatus(req.db)
+            return res.status(200).send({statuses: statuses})
+        } catch (e) {
+            return getErrorResponse(res, e)
         }
-        return res.status(200).send({statuses: statuses})
     }
 
     async getAuctionByUrlId(req, res) {
@@ -25,7 +26,7 @@ class AuctionController {
             const auction = await AuctionService.getAuctionById(req.db, req.params.id)
             res.status(200).send({auction: auction})
         } catch (e) {
-            return res.status(403).send({message: 'Not found auction'})
+            return getErrorResponse(res, e)
         }
     }
 
@@ -44,7 +45,7 @@ class AuctionController {
             const auction = await AuctionService.createAuction(req.db, formData)
 
             if (auction === null) {
-                return res.status(500).send({message: SOMETHING_WENT_WRONG})
+                return res.status(500).send({message: "Не вдалося створити аукціон"})
             }
             res.status(200).send({auction_id: auction.id})
         } catch (e) {

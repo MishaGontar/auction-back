@@ -1,4 +1,5 @@
 import {DELETE_USER_BY_ID, SELECT_USER_BY_USERNAME_OR_EMAIL} from "../../databaseSQL/user/UserSqlQuery.js";
+import Error400 from "../../exceptions/Error400.js";
 
 class UserService {
     async getUserByUsernameOrEmail(db, login) {
@@ -8,7 +9,7 @@ class UserService {
 
     async deleteUserById(db, id) {
         if (!id) {
-            throw new Error('Missing id');
+            throw new Error400();
         }
         const result = await db.query(DELETE_USER_BY_ID, [id]);
         return result.rows[0];

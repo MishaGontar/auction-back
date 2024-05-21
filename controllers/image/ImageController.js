@@ -7,7 +7,7 @@ class ImageController {
             const imagePath = await ImageService.getImageUploadPath(filename);
             res.sendFile(imagePath)
         } catch (e) {
-            return res.status(404).send("File not found");
+            return res.status(404).send("Файл не знайдено");
         }
     }
 }

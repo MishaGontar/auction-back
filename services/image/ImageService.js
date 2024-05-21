@@ -1,8 +1,9 @@
 import path from "path";
 import fs from "node:fs";
 import {DELETE_IMAGE_BY_ID, DELETE_IMAGE_BY_URL, INSERT_IMAGE} from "../../databaseSQL/image/ImageSqlQuery.js";
-import {deleteFileByPath} from "../../utils.js";
+import {deleteFileByPath, getRowsOrThrowException} from "../../utils.js";
 import {DELETE_LOT_IMAGES_BY_LOT_ID, INSERT_LOT_IMAGE} from "../../databaseSQL/lot/LotSqlQuery.js";
+import Error404 from "../../exceptions/Error404.js";
 
 class ImageService {
     async createImageLot(db, files, lot_id) {
@@ -23,28 +24,23 @@ class ImageService {
         const {filename} = file;
         const url = `/images/${filename}`
         const result = await db.query(INSERT_IMAGE, [filename, url]);
-
-        const image = result.rows[0];
-        if (!image) {
-            throw new Error("Can't create image")
-        }
-        return image;
+        return getRowsOrThrowException(result, "Не змогли створити зображення")[0];
     }
 
     async deleteImageByUrl(db, url) {
         const result = await db.query(DELETE_IMAGE_BY_URL, [url]);
         if (!result) {
-            console.error(`Can't delete image by url: ${url}`)
+            console.warn(`Can't delete image by url: ${url}`)
             return;
         }
-        console.log(`Delete successful by url : ${url}`)
         await this.deleteImageByFileName(result.rows[0].name)
+        console.log(`Delete successful by url : ${url}`)
     }
 
     async deleteImageById(db, id) {
         const result = await db.query(DELETE_IMAGE_BY_ID, [id]);
         if (!result) {
-            console.error(`Can't delete image by id: ${id}`)
+            console.warn(`Can't delete image by id: ${id}`)
             return;
         }
         await this.deleteImageByFileName(result.rows[0].name)
@@ -69,14 +65,14 @@ class ImageService {
             console.log(`File exist ${imagePath}`)
             return imagePath;
         } catch (e) {
-            throw new Error(`File not found ${imagePath}`);
+            throw new Error404(`Не знайшли файл по ${imagePath}`);
         }
     }
 
     async deleteImagesByLotId(db, lotId) {
         const image_delete_result = await db.query(DELETE_LOT_IMAGES_BY_LOT_ID, [lotId])
         if (image_delete_result.rows.length === 0) {
-            console.error(`Can't delete lot_images ${lotId}`)
+            console.warn(`Can't delete lot_images ${lotId}`)
         }
         for (const image of image_delete_result.rows) {
             await this.deleteImageById(db, image.img_id)

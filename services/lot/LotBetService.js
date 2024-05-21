@@ -8,11 +8,13 @@ import {
     SELECT_WINNER_LOTS_BY_LOT_BET_ID,
 } from "../../databaseSQL/lot/LotBetSqlQuery.js";
 import LotService from "./LotService.js";
+import Error400 from "../../exceptions/Error400.js";
+import Error422 from "../../exceptions/Error422.js";
 
 class LotBetService {
     async getLotBetsByLotId(db, lot_id) {
         if (!lot_id) {
-            throw new Error('Missing required fields');
+            throw new Error400();
         }
         const result = await db.query(SELECT_LOT_BET_BY_LOT_ID, [lot_id])
         return result.rows
@@ -20,7 +22,7 @@ class LotBetService {
 
     async bet(db, {lot_id, user_id, amount, is_owner}) {
         if (!lot_id || !amount) {
-            throw new Error('Missing required fields');
+            throw new Error400();
         }
 
         console.log(`New amount is ${amount}`)
@@ -32,7 +34,7 @@ class LotBetService {
 
         const the_most_bet = await this.getLotBetsByLotId(db, lot_id)
         if (the_most_bet.length > 0 && the_most_bet[0].amount > amount) {
-            throw Error("Amount must be more than first bet")
+            throw new Error422("Сума має бути більше ніж теперішня ставка")
         }
 
         console.warn("User create lot bet")
@@ -59,7 +61,7 @@ class LotBetService {
 
     async getWinnerBetsByLotBetId(db, lotBetId) {
         if (!lotBetId) {
-            throw new Error('Missing required fields');
+            throw new Error400();
         }
         const result = await db.query(SELECT_WINNER_LOTS_BY_LOT_BET_ID, [lotBetId])
         return result.rows.length > 0 ? result.rows : undefined
@@ -67,7 +69,7 @@ class LotBetService {
 
     async getBetsByUserId(db, userId) {
         if (!userId) {
-            throw new Error('Missing required fields');
+            throw new Error400();
         }
         const result = await db.query(SELECT_LOT_BETS_BY_USER_ID, [userId])
         return result.rows.length > 0 ? result.rows : undefined
@@ -75,19 +77,19 @@ class LotBetService {
 
     async createBetLot(db, lot_id, user_id, amount) {
         if (!lot_id || !amount) {
-            throw new Error('Missing required fields');
+            throw new Error400();
         }
         const result = await db.query(INSERT_LOT_BET, [lot_id, user_id, amount])
-        return getRowsOrThrowException(result, "Not found lot bets")[0]
+        return getRowsOrThrowException(result, "Не змогли створити ставку для лоту")[0]
     }
 
     async deleteBetLotByIdAndLotId(db, bet_id, lot_id) {
         if (!bet_id || !lot_id) {
-            throw new Error('Missing required fields');
+            throw new Error400();
         }
 
         const result = await db.query(DELETE_LOT_BET_BY_ID_AND_LOT_BET_ID, [bet_id, lot_id])
-        return getRowsOrThrowException(result, "Not found lot bets")[0]
+        return getRowsOrThrowException(result, "Не змогли видалити ставку")[0]
     }
 }
 

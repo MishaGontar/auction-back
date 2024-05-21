@@ -22,7 +22,49 @@ CREATE TABLE IF NOT EXISTS images
 );
 
 INSERT INTO images (name, image_url)
-VALUES ('user_logo_standard.png', '/images/user_logo_standard.png');
+VALUES ('user_logo_standard.png', '/images/user_logo_standard.png'),
+
+       ('fight.jpeg', '/images/fight.jpeg'),
+       ('bear-1.jpeg', '/images/bear-1.jpeg'),
+       ('bear-2.jpeg', '/images/bear-2.jpeg'),
+       ('bear-3.jpeg', '/images/bear-3.jpeg'),
+       ('panda-1.jpeg', '/images/panda-1.jpeg'),
+       ('panda-2.jpeg', '/images/panda-2.jpeg'),
+       ('panda-3.jpeg', '/images/panda-3.jpeg'),
+
+       ('car-main.jpeg', '/images/car-main.jpeg'),
+       ('big-car-1.jpeg', '/images/big-car-1.jpeg'),
+       ('big-car-2.jpeg', '/images/big-car-2.jpeg'),
+       ('big-car-3.jpeg', '/images/big-car-3.jpeg'),
+       ('fly-car-1.jpeg', '/images/fly-car-1.jpeg'),
+       ('fly-car-2.jpeg', '/images/fly-car-2.jpeg'),
+       ('fly-car-3.jpeg', '/images/fly-car-3.jpeg'),
+       ('neon-car-1.jpeg', '/images/neon-car-1.jpeg'),
+       ('neon-car-2.jpeg', '/images/neon-car-2.jpeg'),
+       ('neon-car-3.jpeg', '/images/neon-car-3.jpeg'),
+
+       ('eagle-main.jpeg', '/images/eagle-main.jpeg'),
+       ('bird-1.jpeg', '/images/bird-1.jpeg'),
+       ('bird-2.jpeg', '/images/bird-2.jpeg'),
+       ('bird-3.jpeg', '/images/bird-3.jpeg'),
+       ('eagle-1.jpeg', '/images/eagle-1.jpeg'),
+       ('eagle-2.jpeg', '/images/eagle-2.jpeg'),
+       ('eagle-3.jpeg', '/images/eagle-3.jpeg'),
+
+       ('ice-1.jpeg', '/images/ice-1.jpeg'),
+       ('ice-2.jpeg', '/images/ice-2.jpeg'),
+       ('ice-3.jpeg', '/images/ice-3.jpeg'),
+       ('burger-1.jpeg', '/images/burger-1.jpeg'),
+       ('burger-2.jpeg', '/images/burger-2.jpeg'),
+       ('burger-3.jpeg', '/images/burger-3.jpeg'),
+
+       ('magic-food-1.jpeg', '/images/magic-food-1.jpeg'),
+       ('magic-food-2.jpeg', '/images/magic-food-2.jpeg'),
+       ('magic-food-3.jpeg', '/images/magic-food-3.jpeg'),
+       ('magic-tea-1.jpeg', '/images/magic-tea-1.jpeg'),
+       ('magic-tea-2.jpeg', '/images/magic-tea-2.jpeg'),
+       ('magic-tea-3.jpeg', '/images/magic-tea-3.jpeg')
+;
 
 create table if not exists users
 (

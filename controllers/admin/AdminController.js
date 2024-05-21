@@ -42,7 +42,7 @@ class AdminController {
             const admin = await AdminService.handleLogin(req.db, formData);
             await AuthService.sendEmailCode(req.db, admin.email, admin.user_id)
             const mfa_token = await AuthService.generateAccessToken(admin)
-            res.status(201).send({msg: "Email sent", token: mfa_token});
+            res.status(201).send({msg: "Повідомлення надіслано", token: mfa_token});
         } catch (e) {
             console.error('Error during login:', e);
             getErrorResponse(res, e.message)

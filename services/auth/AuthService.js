@@ -1,12 +1,13 @@
 import jwt from "jsonwebtoken";
-import {generateCode} from "../../utils.js";
+import {generateCode, getRowsOrThrowException} from "../../utils.js";
 import EmailService from "../email/EmailService.js";
 import {
     DELETE_VERIFICATION_CODE,
     INSERT_VERIFICATION_CODE,
     SELECT_VERIFICATION_CODE
 } from "../../databaseSQL/user_code/UserCodeSqlQuery.js";
-import IncorrectVerifyCodeException from "../../exceptions/IncorrectVerifyCodeException.js";
+import Error422 from "../../exceptions/Error422.js";
+import {INCORRECT_VERIFY_CODE} from "../../TextConstant.js";
 
 class AuthService {
 
@@ -20,20 +21,17 @@ class AuthService {
 
     async sendEmailCode(db, email, userId) {
         const code = generateCode();
-        const {rows: insertedCode} = await db.query(INSERT_VERIFICATION_CODE, [code, userId]);
+        const result = await db.query(INSERT_VERIFICATION_CODE, [code, userId]);
 
-        if (insertedCode.length === 0) {
-            throw new Error("Failed to create entry in users_codes.");
-        }
-
+        getRowsOrThrowException(result, "Не змогли створити тимчасовий код для користувача")
         await new EmailService().sendConfirmIdentity(email, code)
     }
 
     async verifyCode(db, user_id, code) {
-        const {rows: userCodes} = await db.query(SELECT_VERIFICATION_CODE, [user_id, code]);
+        const result = await db.query(SELECT_VERIFICATION_CODE, [user_id, code]);
 
-        if (userCodes.length === 0) {
-            throw new IncorrectVerifyCodeException();
+        if (result.rows.length === 0) {
+            throw new Error422(INCORRECT_VERIFY_CODE);
         }
 
         await db.query(DELETE_VERIFICATION_CODE, [user_id, code])

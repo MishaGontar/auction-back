@@ -17,7 +17,7 @@ class AuctionService {
     async createAuction(db, formData) {
         const {name, description, seller_id, status_id, img_id} = formData;
         const result = await db.query(INSERT_AUCTION, [name, description, seller_id, status_id, img_id]);
-        return result.rows[0];
+        return getRowsOrThrowException(result, "Не вдалося створити аукціон")[0];
     }
 
     async getAuctionsBySellerId(db, sellerId) {
@@ -27,27 +27,17 @@ class AuctionService {
 
     async getAuctionById(db, id) {
         const result = await db.query(SELECT_AUCTION_BY_ID, [id])
-        return getRowsOrThrowException(result, "Can't find auction by id")[0]
+        return getRowsOrThrowException(result, "Не змогли найти аукціон")[0]
     }
 
     async getAuctionStatuses(db) {
-        try {
-            const result = await db.query(SELECT_ALL_AUCTION_STATUS)
-            return result.rows
-        } catch (e) {
-            console.log(e);
-            return null;
-        }
+        const result = await db.query(SELECT_ALL_AUCTION_STATUS)
+        return getRowsOrThrowException(result, "Не змогли найти статуси продавців")
     }
 
     async getOnlyAuctionCreateStatus(db) {
-        try {
-            const result = await db.query(SELECT_ONLY_AUCTION_CREATE_STATUS)
-            return result.rows
-        } catch (e) {
-            console.log(e);
-            return null;
-        }
+        const result = await db.query(SELECT_ONLY_AUCTION_CREATE_STATUS)
+        return getRowsOrThrowException(result, "Не змогли найти статуси аукціону")
     }
 
     async updateAuction(db, form) {
@@ -66,11 +56,7 @@ class AuctionService {
         ];
 
         const result = await db.query(sqlQuery, values);
-        const auction = result.rows[0];
-        if (!auction) {
-            throw new Error("Can't update auction")
-        }
-        return auction
+        return getRowsOrThrowException(result, "Не вдалося оновити аукціон")[0]
     }
 
     async deleteAuction(db, {auction_id, auction_img_path}) {

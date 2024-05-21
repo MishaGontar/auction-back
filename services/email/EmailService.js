@@ -20,7 +20,7 @@ class EmailService {
         this.transporter = nodemailer.createTransport(config);
     }
 
-    async sendAcceptSellerMessage(name, email) {
+    async sendAcceptSellerMessage(email) {
         const message = {
             from: process.env.GMAIL_APP_EMAIL,
             to: email,

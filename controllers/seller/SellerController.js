@@ -3,6 +3,7 @@ import {deleteRequestFiles, deleteTokenExpiredKeys, getErrorResponse, getUserFro
 import AuthService from "../../services/auth/AuthService.js";
 import EmailService from "../../services/email/EmailService.js";
 import AuctionService from "../../services/auction/AuctionService.js";
+import Error404 from "../../exceptions/Error404.js";
 
 class SellerController {
     async handleSellerForm(req, res) {
@@ -44,12 +45,9 @@ class SellerController {
 
     async acceptSeller(req, res) {
         try {
-            const {seller_id, email, full_name} = req.body
-            const seller = await SellerService.acceptSeller(req.db, seller_id)
-            if (!seller) {
-                return res.status(404).send({message: "Can't find seller"})
-            }
-            await new EmailService().sendAcceptSellerMessage(full_name, email)
+            const {seller_id, email} = req.body
+            await SellerService.acceptSeller(req.db, seller_id)
+            await new EmailService().sendAcceptSellerMessage(email)
             res.status(200).send({})
         } catch (e) {
             console.error('Error during acceptSeller :', e);
@@ -60,10 +58,7 @@ class SellerController {
     async rejectSeller(req, res) {
         try {
             const {seller_id, email} = req.body
-            const seller = await SellerService.rejectSeller(req.db, seller_id)
-            if (!seller) {
-                return res.status(404).send({message: "Can't find seller"})
-            }
+            await SellerService.rejectSeller(req.db, seller_id)
             await new EmailService().sendRejectSellerMessage(email)
             res.status(200).send({})
         } catch (e) {
@@ -75,9 +70,6 @@ class SellerController {
     async getSellersStatuses(req, res) {
         try {
             const status = await SellerService.getSellerStatus(req.db)
-            if (!status) {
-                return res.status(404).send({message: "Can't find seller status"})
-            }
             res.status(200).send({status: status})
         } catch (e) {
             console.error('Error during getSellersStatus :', e);
@@ -91,7 +83,7 @@ class SellerController {
 
         if (seller_id !== auction_seller_id) {
             deleteRequestFiles(req)
-            res.status(403).send({message: "You are not owner"})
+            res.status(403).send({message: "Ти не власник"})
             return;
         }
         next()
@@ -101,11 +93,11 @@ class SellerController {
         try {
             const sellerId = req.params.id
             if (!sellerId) {
-                return res.status(404).send({message: "Can't find seller"})
+                this.ErrorCantFindSeller()
             }
             const seller = await SellerService.findSellerById(req.db, sellerId)
             if (seller.status_id !== 2) {
-                return res.status(404).send({message: "Can't find seller"})
+                this.ErrorCantFindSeller()
             }
             const auctions = await AuctionService.getAuctionsBySellerId(req.db, sellerId)
             res.status(200).send({seller, auctions})
@@ -113,6 +105,10 @@ class SellerController {
             console.error('Error during getSellerById :', e);
             return getErrorResponse(res, e)
         }
+    }
+
+    ErrorCantFindSeller() {
+        throw new Error404("Не змогли знайти продавця")
     }
 }
 
