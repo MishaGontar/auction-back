@@ -91,13 +91,13 @@ class SellerController {
 
     async getSellerInfoById(req, res) {
         try {
-            const sellerId = req.params.id
+            const sellerId = +req.params.id
             if (!sellerId) {
-                this.ErrorCantFindSeller()
+                throw new Error404("Не змогли знайти продавця")
             }
             const seller = await SellerService.findSellerById(req.db, sellerId)
             if (seller.status_id !== 2) {
-                this.ErrorCantFindSeller()
+                throw new Error404("Не змогли знайти продавця")
             }
             const auctions = await AuctionService.getAuctionsBySellerId(req.db, sellerId)
             res.status(200).send({seller, auctions})
@@ -105,10 +105,6 @@ class SellerController {
             console.error('Error during getSellerById :', e);
             return getErrorResponse(res, e)
         }
-    }
-
-    ErrorCantFindSeller() {
-        throw new Error404("Не змогли знайти продавця")
     }
 }
 
