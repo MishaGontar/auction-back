@@ -82,7 +82,7 @@ create table if not exists auction_status
 
 INSERT INTO auction_status (id, name)
 VALUES (1, 'відкритий'),
-       (2, 'тільки по url'),
+       (2, 'тільки за посиланням'),
        (3, 'закритий'),
        (4, 'завершений');
 
@@ -140,12 +140,12 @@ CREATE TABLE IF NOT EXISTS lot_images
 
 INSERT INTO images (name, image_url)
 VALUES ('fight.jpeg', '/images/fight.jpeg'),
-       ('bear-1.jpeg', '/images/bear-1.jpeg'),
-       ('bear-2.jpeg', '/images/bear-2.jpeg'),
+       ('bear-1.jpeg', '/images/bear-1.png'),
+       ('bear-2.png', '/images/bear-2.png'),
        ('bear-3.jpeg', '/images/bear-3.jpeg'),
-       ('panda-1.jpeg', '/images/panda-1.jpeg'),
-       ('panda-2.jpeg', '/images/panda-2.jpeg'),
-       ('panda-3.jpeg', '/images/panda-3.jpeg'),
+       ('panda-1.png', '/images/panda-1.png'),
+       ('panda-2.png', '/images/panda-2.png'),
+       ('panda-3.png', '/images/panda-3.png'),
 
        ('car-main.jpeg', '/images/car-main.jpeg'),
        ('big-car-1.jpeg', '/images/big-car-1.jpeg'),
@@ -166,6 +166,7 @@ VALUES ('fight.jpeg', '/images/fight.jpeg'),
        ('eagle-2.jpeg', '/images/eagle-2.jpeg'),
        ('eagle-3.jpeg', '/images/eagle-3.jpeg'),
 
+       ('food-main.png', '/images/food-main.png'),
        ('ice-1.jpeg', '/images/ice-1.jpeg'),
        ('ice-2.jpeg', '/images/ice-2.jpeg'),
        ('ice-3.jpeg', '/images/ice-3.jpeg'),
@@ -173,29 +174,42 @@ VALUES ('fight.jpeg', '/images/fight.jpeg'),
        ('burger-2.jpeg', '/images/burger-2.jpeg'),
        ('burger-3.jpeg', '/images/burger-3.jpeg'),
 
+       ('magic-food-main.png', '/images/magic-food-main.png'),
        ('magic-food-1.jpeg', '/images/magic-food-1.jpeg'),
        ('magic-food-2.jpeg', '/images/magic-food-2.jpeg'),
        ('magic-food-3.jpeg', '/images/magic-food-3.jpeg'),
        ('magic-tea-1.jpeg', '/images/magic-tea-1.jpeg'),
        ('magic-tea-2.jpeg', '/images/magic-tea-2.jpeg'),
-       ('magic-tea-3.jpeg', '/images/magic-tea-3.jpeg')
+       ('magic-tea-3.jpeg', '/images/magic-tea-3.jpeg'),
+
+       ('avatar-1.png', '/images/avatar-1.png'),
+       ('avatar-2.png', '/images/avatar-2.png'),
+       ('avatar-3.png', '/images/avatar-3.png'),
+       ('avatar-4.png', '/images/avatar-4.png'),
+       ('avatar-5.png', '/images/avatar-5.png'),
+       ('avatar-6.png', '/images/avatar-6.png'),
+       ('avatar-7.png', '/images/avatar-7.png'),
+       ('avatar-8.png', '/images/avatar-8.png'),
+       ('avatar-9.png', '/images/avatar-9.png'),
+       ('avatar-10.png', '/images/avatar-10.png')
 ;
 
 -- Тестові користувачі
-INSERT INTO users (username, password, email, is_activated)
-VALUES ('misha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true),
-       ('sasha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'afgfduzbf@yomail.info', true),
-       ('mirko', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'knwkmwfqf@emlpro.com', true),
-       ('pili', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'fya2k7p6@flymail.tk', true),
-       ('aldo', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'ayccneirg@emltmp.com', true),
-       ('marta', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'afqfonfodfbvjo@dropmail.me', true),
-       ('ciel', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'qkbdktknf@emlhub.com', true),
-       ('landon', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'j1jf0j2x@spymail.one', true),
-       ('matia', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'j1jf3c7g@spymail.one', true),
-       ('alma', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'iebymwfqf@emlpro.com', true),
-       ('eliora', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'fpfhktknf@emlhub.com', true),
-       ('catrine', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'j1jf745x@spymail.one', true),
-       ('brandon', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'd0dod1wedak3@10mail.xyz', true);
+INSERT INTO users (username, password, email, is_activated, image_id)
+VALUES ('misha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true,1),
+       ('sasha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'afgfduzbf@yomail.info', true,1),
+       ('mirko', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'knwkmwfqf@emlpro.com', true, 40),
+       ('pili', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'fya2k7p6@flymail.tk', true, 41),
+       ('aldo', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'ayccneirg@emltmp.com', true, 42),
+       ('marta', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'afqfonfodfbvjo@dropmail.me', true,
+        43),
+       ('ciel', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'qkbdktknf@emlhub.com', true, 44),
+       ('landon', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'j1jf0j2x@spymail.one', true, 45),
+       ('matia', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'j1jf3c7g@spymail.one', true, 46),
+       ('alma', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'iebymwfqf@emlpro.com', true, 47),
+       ('eliora', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'fpfhktknf@emlhub.com', true, 48),
+       ('catrine', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'j1jf745x@spymail.one', true, 49),
+       ('brandon', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'd0dod1wedak3@10mail.xyz', true,1);
 
 
 -- Тестові продавці
@@ -206,21 +220,21 @@ VALUES (3, 'Іван Петренко', 'instagram:IvanPetrenko', 1, 'вул. Г
        (4, 'Олена Смирнова', 'twitter:OlenaSmirnova', 3, 'вул. Ялинкова 456, Селище',
         'Пристрасно захоплюється вінтажними колекціями.',
         '234-567-8901'),
-       (5, 'Богдан Іванов', 'instagram:BohdanIvanov', 2, 'вул. Дубова 789, Село',
+       (5, 'Лілія Іванова', 'instagram:BohdanIvanov', 2, 'вул. Дубова 789, Село',
         'Поціновувач мистецтва з акцентом на сучасний живопис.', '345-678-9012'),
-       (6, 'Анастасія Браун', 'twitter:AnastasiaBraun', 2, 'вул. Соснова 987, Передмістя',
+       (6, 'Іван Браун', 'twitter:AnastasiaBraun', 2, 'вул. Соснова 987, Передмістя',
         'Відданий продавець рідкісних книг та рукописів.', '456-789-0123'),
        (7, 'Давид Вілсон', 'instagram:DavidWilson', 3, 'вул. Кедрова 321, Район',
         'Експерт у вінтажних прикрасах та коштовностях.', '567-890-1234'),
        (8, 'Софія Лі', 'twitter:SophiaLee', 1, 'вул. Березова 654, Село',
         'Спеціалізується на ручних ремеслах та кераміці.', '678-901-2345'),
-       (9, 'Максим Тейлор', 'instagram:MaximTaylor', 1, 'вул. Кленова 876, Ліс',
+       (9, 'Оксана Тар', 'instagram:MaximTaylor', 1, 'вул. Кленова 876, Ліс',
         'Пристрасний поціновувач класичних автомобілів.', '789-012-3456'),
-       (10, 'Ольга Білоус', 'twitter:OlgaBilaus', 2, 'вул. Дубова 543, Гори',
+       (10, 'Дмитро Дмитрович', 'twitter:OlgaBilaus', 2, 'вул. Дубова 543, Гори',
         'Збирає та продає вінтажні вінілові платівки.', '890-123-4567'),
        (11, 'Віталій Кларк', 'instagram:VitaliyClark', 3, 'вул. Ялинкова 234, Долина',
         'Пристрасний колекціонер рідкісних монет та валюти.', '901-234-5678'),
-       (12, 'Ганна Бейкер', 'twitter:HannaBaker', 3, 'вул. Соснова 789, Каньйон',
+       (12, 'Віталік Бакер', 'twitter:HannaBaker', 3, 'вул. Соснова 789, Каньйон',
         'Спеціалізується на реставрації антикварних меблів.', '012-345-6789'),
        (13, 'Богдан', 'instagram:Bohdan', 1, 'вул. Ялинкова 100, Селище', 'Пристрасний колекціонер вінтажних іграшок.',
         '345-678-9012');
@@ -241,7 +255,7 @@ VALUES ('Величний Бурий Ведмідь',
         3, 1, 1, 12000, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737'),
        ('Чарівна Велика Панда',
         'Чарівна Велика Панда, яка прибула до нас з гірських лісів Китаю. Її чорне та біле хутро створює унікальний контраст, а грайливий характер зробить її улюбленицею будь-якої родини. Вік - 3 роки, вага - 120 кг. Панда любить бамбук та гратися на свіжому повітрі.',
-        3, 1, 1, 67000, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737');
+        3, 1, 2, 67000, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737');
 
 INSERT INTO lot_images(lot_id, img_id)
 VALUES (1, 3),
@@ -261,7 +275,7 @@ VALUES ('Машина зі Здоровими Колесами',
         4, 2, 1, 190000, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737'),
        ('Літаюча Машина SkyRider',
         'Літаюча Машина SkyRider - втілення футуристичних мрій. Ця машина здатна піднятися в повітря та оминути затори на дорогах. Оснащена потужними двигунами та сучасною системою навігації. Вік - 1 рік, пробіг - 10,000 км (включаючи польоти). Відмінний стан, повний технічний огляд пройдено.',
-        4, 2, 1, 350000, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737'),
+        4, 2, 3, 350000, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737'),
        ('Кіберпанк Машина NeonBlade',
         'Кіберпанк Машина NeonBlade - стильний автомобіль для любителів кіберпанк-культури. Оригінальний дизайн, яскраві неонові вогні та потужний двигун роблять цю машину унікальною. Вік - 3 роки, пробіг - 50,000 км. Відмінний стан, повністю функціональна електроніка та механіка.',
         4, 2, 1, 1500000, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737');
@@ -300,7 +314,7 @@ VALUES (6, 20),
 
 INSERT INTO auctions (name, description, seller_id, status_id, img_id)
 VALUES ('Смакові Дива: Аукціон Гурманів',
-        'Аукціон з продажу чарівного різнокольорового морозива та соковитого бургера.', 8, 1, 31);
+        'Аукціон з продажу чарівного різнокольорового морозива та соковитого бургера.', 8, 1, 26);
 
 INSERT INTO lots (name, description, seller_id, auction_id, status_id, amount, bank_card_number, monobank_link)
 VALUES ('Чарівне Різнокольорове Морозиво',
@@ -311,32 +325,32 @@ VALUES ('Чарівне Різнокольорове Морозиво',
         8, 4, 1, 1200, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737');
 
 INSERT INTO lot_images(lot_id, img_id)
-VALUES (8, 26),
-       (8, 27),
+VALUES (8, 27),
        (8, 28),
-       (9, 29),
+       (8, 29),
        (9, 30),
-       (9, 31);
+       (9, 31),
+       (9, 32);
 
 INSERT INTO auctions (name, description, seller_id, status_id, img_id)
 VALUES ('Магічні Смаколики: Аукціон Чудес Природи', 'Аукціон з продажу магічних фруктів та магічного червоного чаю.', 4,
-        1, 37);
+        1, 33);
 
 INSERT INTO lots (name, description, seller_id, auction_id, status_id, amount, bank_card_number, monobank_link)
 VALUES ('Магічні Фрукти Енчантра',
         'Магічні Фрукти Енчантра - унікальні плоди, що володіють чарівними властивостями. Вони не тільки мають незвичайні смаки, але й надають енергії та покращують настрій. Кожен фрукт має свій особливий колір та смак, наповнений магією природи. Ідеальні для особливих моментів або як подарунок. Вік - свіжі, зібрані цього сезону.',
-        4, 5, 1, 888, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737'),
+        4, 5, 3, 888, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737'),
        ('Магічний Червоний Чай Рубі',
         'Магічний Червоний Чай Рубі - еліксир, що дарує бадьорість та спокій одночасно. Цей чай має насичений рубіновий колір та унікальний аромат, який зачаровує з першого ковтка. Виготовлений за стародавнім рецептом з використанням чарівних трав та квітів. Ідеальний для медитації та релаксації. Пакування - елегантна скляна банка.',
         4, 5, 1, 777, '5375 4141 0552 0125', 'https://send.monobank.ua/jar/dzBdJ3737');
 
 INSERT INTO lot_images(lot_id, img_id)
-VALUES (10, 32),
-       (10, 33),
-       (10, 34),
-       (11, 35),
-       (11, 36),
-       (11, 37);
+VALUES (10, 34),
+       (10, 35),
+       (10, 36),
+       (11, 37),
+       (11, 38),
+       (11, 39);
 
 INSERT INTO lot_bet(lot_id, user_id, amount)
 VALUES (10, 5, 888),

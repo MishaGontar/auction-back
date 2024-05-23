@@ -1,16 +1,18 @@
 export const SELECT_LOT_BET_BY_LOT_ID = `
-    SELECT lb.id AS bet_id,
+    SELECT lb.id       AS bet_id,
            lb.lot_id,
            lb.user_id,
            lb.amount,
            lb.date_created,
            u.username,
-           u.image_id
+           i.image_url AS user_img_url
     FROM lot_bet lb
              LEFT JOIN users u ON lb.user_id = u.id
+             LEFT JOIN images i ON u.image_id = i.id
     WHERE lb.lot_id = $1
-    ORDER BY amount DESC;
-`
+    ORDER BY lb.amount DESC;
+`;
+
 
 export const INSERT_LOT_BET = `
     INSERT INTO lot_bet (lot_id, user_id, amount)

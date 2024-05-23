@@ -2,6 +2,7 @@ import {
     DELETE_LOT_BY_ID,
     INSERT_LOT,
     INSERT_WINNER_LOT,
+    SELECT_ALL_LOTS,
     SELECT_AUCTION_LOTS,
     SELECT_LOT_BY_ID,
     SELECT_LOT_IMAGES_BY_LOT_ID,
@@ -71,7 +72,7 @@ class LotService {
     async isLotOwner(req, lotId) {
         const lot = await this.getLotById(req.db, lotId)
 
-        if (req.user.seller_id !== lot.seller_id) {
+        if (!req.admin_token && req.user.seller_id !== lot.seller_id) {
             throw new Error403("Ти не власник лота");
         }
     }
@@ -120,6 +121,14 @@ class LotService {
         ])
 
         return getRowsOrThrowException(result, "Не змогли оновити лот")[0]
+    }
+
+    async getAllLots(db) {
+        const result = await db.query(SELECT_ALL_LOTS)
+        for(const lot of result.rows) {
+            lot.images = await this.getLotImagesByLotId(db, lot.lot_id)
+        }
+        return result.rows
     }
 }
 

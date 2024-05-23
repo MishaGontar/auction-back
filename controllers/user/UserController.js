@@ -1,7 +1,10 @@
-import {getErrorResponse, getUserFromRequest} from "../../utils.js";
+import {deleteRequestFiles, deleteTokenExpiredKeys, getErrorResponse, getUserFromRequest} from "../../utils.js";
 import LotBetService from "../../services/lot/LotBetService.js";
 import UserService from "../../services/user/UserService.js";
 import AuctionService from "../../services/auction/AuctionService.js";
+import ImageService from "../../services/image/ImageService.js";
+import Error403 from "../../exceptions/Error403.js";
+import authService from "../../services/auth/AuthService.js";
 
 class UserController {
     getUser(req, res) {
@@ -39,6 +42,47 @@ class UserController {
             return res.status(200).send({message: 'Користувач видалився', user: user})
         } catch (e) {
             console.error(`deleteUserById `, e)
+            return getErrorResponse(res, e)
+        }
+    }
+
+    async deleteUserByUrl(req, res) {
+        req.user.user_id = +req.params.id
+        req.user.seller_id = +req.params.sellerId
+        console.log(req.user)
+        await new UserController().deleteUserById(req, res)
+    }
+
+    async getAllUsers(req, res) {
+        try {
+            const users = await UserService.getAllUsers(req.db)
+            return res.status(200).send({users: users})
+        } catch (e) {
+            console.error(`getAllUsers `, e)
+            return getErrorResponse(res, e)
+        }
+    }
+
+    async updateUserPhoto(req, res) {
+        try {
+            if (!req.file) {
+                throw new Error403("Не вибрано зображення")
+            }
+
+            const new_img = await ImageService.createImage(req.db, req.file);
+            const data = {
+                user_id: req.user.user_id,
+                image_id: new_img.id
+            }
+            await UserService.updatePhoto(req.db, data)
+            const new_user = req.user;
+            new_user.image_url = new_img.image_url;
+            deleteTokenExpiredKeys(new_user)
+            const token = authService.generateAccessToken(new_user)
+            return res.status(200).send({token: token, image_url: new_img.image_url})
+        } catch (e) {
+            console.error(`updateUserPhoto `, e)
+            deleteRequestFiles(req)
             return getErrorResponse(res, e)
         }
     }

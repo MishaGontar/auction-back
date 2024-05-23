@@ -30,23 +30,23 @@ export const SELECT_AUCTION_BY_SELLER_ID = `
 `
 
 export const SELECT_AUCTION_BY_ID = `
-    SELECT r.id          AS auction_id,
-           r.name        AS auction_name,
-           r.description AS auction_description,
+    SELECT a.id          AS auction_id,
+           a.name        AS auction_name,
+           a.description AS auction_description,
            rs.name       AS auction_status,
            rs.id         AS auction_status_id,
-           i.image_url   AS auction_img_path,
-           r.seller_id   AS seller_id,
-           s.full_name   AS seller_name
-    FROM auctions r
-             JOIN
-         auction_status rs ON r.status_id = rs.id
-             LEFT JOIN
-         images i ON r.img_id = i.id
-             JOIN
-         sellers s ON r.seller_id = s.id
-    WHERE r.id = $1;
-`
+           ai.image_url  AS auction_img_path,
+           a.seller_id   AS seller_id,
+           s.full_name   AS seller_name,
+           si.image_url  AS seller_img_path
+    FROM auctions a
+             JOIN auction_status rs ON a.status_id = rs.id
+             LEFT JOIN images ai ON a.img_id = ai.id
+             JOIN sellers s ON a.seller_id = s.id
+             JOIN users u ON s.user_id = u.id
+             LEFT JOIN images si ON u.image_id = si.id
+    WHERE a.id = $1;
+`;
 export const SELECT_ALL_AUCTION = `
     SELECT r.id          AS auction_id,
            r.name        AS auction_name,

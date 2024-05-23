@@ -23,15 +23,42 @@ export const SELECT_LOT_BY_ID = `
            auctions.id           AS auction_id,
            auctions.name         AS auction_name,
            auction_status.id     AS lot_status_id,
+           auction_status.name   AS lot_status_name,
+           ai.image_url          AS auction_img_path,
+           si.image_url          AS seller_img_path
+    FROM lots
+             JOIN sellers ON lots.seller_id = sellers.id
+             JOIN users ON sellers.user_id = users.id
+             JOIN auctions ON lots.auction_id = auctions.id
+             JOIN auction_status ON lots.status_id = auction_status.id
+             LEFT JOIN images ai ON auctions.img_id = ai.id
+             LEFT JOIN images si ON users.image_id = si.id
+    WHERE lots.id = $1;
+`;
+
+
+export const SELECT_ALL_LOTS = `
+    SELECT lots.id               AS lot_id,
+           lots.name             AS lot_name,
+           lots.description      AS lot_description,
+           lots.amount           AS lot_amount,
+           lots.bank_card_number AS lot_bank_card_number,
+           lots.monobank_link    AS lot_monobank_link,
+           lots.date_created     AS lot_date_created,
+           sellers.id            AS seller_id,
+           sellers.full_name     AS seller_full_name,
+           auctions.id           AS auction_id,
+           auctions.name         AS auction_name,
+           auction_status.id     AS lot_status_id,
            auction_status.name   AS lot_status_name
     FROM lots
              JOIN sellers ON lots.seller_id = sellers.id
              JOIN users ON sellers.user_id = users.id
              JOIN auctions ON lots.auction_id = auctions.id
              JOIN auction_status ON lots.status_id = auction_status.id
-             LEFT JOIN images ON auctions.img_id = images.id
-    WHERE lots.id = $1;
+             LEFT JOIN images ON auctions.img_id = images.id;
 `
+
 export const DELETE_LOT_BY_ID = `
     DELETE
     from lots

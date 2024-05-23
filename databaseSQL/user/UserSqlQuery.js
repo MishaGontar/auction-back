@@ -11,6 +11,19 @@ export const SELECT_USER_BY_USERNAME_OR_EMAIL = `
        OR u.email = $1
 `;
 
+export const SELECT_ALL_USERS = `
+    SELECT u.id AS user_id,
+           u.username,
+           u.email,
+           u.is_activated,
+           i.image_url,
+           s.id AS seller_id
+    FROM users u
+             JOIN images i ON u.image_id = i.id
+             LEFT JOIN sellers s ON u.id = s.user_id
+    WHERE u.id NOT IN (SELECT user_id FROM admins);
+`
+
 export const SELECT_USER_BY_USERNAME_OR_EMAIL_WITH_EMAIL = `
     SELECT u.id AS user_id,
            u.username,
@@ -39,6 +52,19 @@ export const UPDATE_USER_ACTIVATION_STATUS = `
       AND u.image_id = i.id
     RETURNING u.id as user_id, u.username, u.email, u.is_activated, i.image_url
 `;
+export const SELECT_USER_BY_ID = `
+    SELECT *
+    from users
+    where id = $1
+`
+export const UPDATE_USER_PHOTO = `
+    UPDATE users AS u
+    SET image_id = $1
+    FROM images AS i
+    WHERE u.id = $2
+      AND u.image_id = i.id
+    RETURNING u.id as user_id, u.username, u.email, u.is_activated, i.image_url
+`
 
 export const DELETE_USER_BY_ID = `
     DELETE

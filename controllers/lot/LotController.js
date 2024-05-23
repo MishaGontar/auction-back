@@ -1,5 +1,5 @@
 import ImageService from "../../services/image/ImageService.js";
-import {checkFormDataWithFile, deleteRequestFiles, getErrorResponse, getUserFromRequest} from "../../utils.js";
+import {checkFormDataWithFile, deleteRequestFiles, getErrorResponse} from "../../utils.js";
 import LotService from "../../services/lot/LotService.js";
 import LotBetService from "../../services/lot/LotBetService.js";
 
@@ -24,6 +24,17 @@ class LotController {
             return res.status(200).send({lots})
         } catch (e) {
             console.error(`getAuctionLots error: `, e)
+            return getErrorResponse(res, e)
+        }
+    }
+
+    async getLotImages(req, res) {
+        try {
+            const id = +req.params.id
+            const images = await LotService.getLotImagesByLotId(req.db, id)
+            return res.status(200).send({images})
+        } catch (e) {
+            console.error(`getLotImages error: `, e)
             return getErrorResponse(res, e)
         }
     }

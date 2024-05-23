@@ -1,6 +1,7 @@
 import AuctionService from "../../services/auction/AuctionService.js";
 import ImageService from "../../services/image/ImageService.js";
 import {checkFormDataWithFile, deleteRequestFiles, getErrorResponse} from "../../utils.js";
+import LotService from "../../services/lot/LotService.js";
 
 class AuctionController {
     async getAuctionStatuses(req, res) {
@@ -103,6 +104,18 @@ class AuctionController {
             });
             return res.status(200).send({auctions: filteredAuctions})
         } catch (e) {
+            console.error('getAllAuthAuctions', e)
+            return getErrorResponse(res, e)
+        }
+    }
+
+    async getAllAuctions(req, res) {
+        try {
+            const auctions = await AuctionService.getAllAuctions(req.db)
+            const lots = await LotService.getAllLots(req.db);
+
+            return res.status(200).send({auctions: auctions, lots: lots})
+        } catch (e) {
             console.error('getAllAuctions', e)
             return getErrorResponse(res, e)
         }
@@ -112,7 +125,7 @@ class AuctionController {
         try {
             const auction_id = +req.params.id;
             const auction = await AuctionService.getAuctionById(req.db, auction_id)
-            if (req.user.seller_id !== auction.seller_id) {
+            if (!req.admin_token && req.user.seller_id !== auction.seller_id ) {
                 throw new Error("You are not a owner!")
             }
             const result = await AuctionService.deleteAuction(req.db, auction)

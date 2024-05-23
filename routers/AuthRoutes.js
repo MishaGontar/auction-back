@@ -15,6 +15,7 @@ export function applyAuthRoutes(app) {
     app.get("/auctions/all_auth", AuctionController.getAllAuthAuctions)
     app.get("/auction/getAvailable", AuctionController.getAllAvailableAuction)
     app.get("/user", UserController.getUser)
+    app.post("/user/photo", uploadTemp.single('image'), UserController.updateUserPhoto)
     app.get("/user/bets", UserController.getUserBets)
     app.delete("/user/delete", UserController.deleteUserById)
     app.get("/seller", SellerController.getSellerByUserId)
