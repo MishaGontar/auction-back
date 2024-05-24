@@ -37,11 +37,16 @@ class UserService {
 
         const result = await db.query(UPDATE_USER_PHOTO, [image_id, user_id]);
         const new_user = getRowsOrThrowException(result, "Не змогли оновити фото користувача")[0]
-        if (user.image_id !== 1) {
-            console.warn("Need to delete old avatar");
-            await ImageService.deleteImageById(db, user.image_id);
-        } else {
-            console.log("It`s standard avatar");
+        try {
+            if (user.image_id !== 1) {
+                console.warn("Need to delete old avatar");
+                await ImageService.deleteImageById(db, user.image_id);
+            } else {
+                console.log("It`s standard avatar");
+            }
+        } catch (e) {
+            console.error(e);
+            console.warn("Can`t delete old avatar");
         }
         return new_user;
     }
