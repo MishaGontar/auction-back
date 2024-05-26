@@ -16,9 +16,10 @@ SET timezone TO 'Europe/Kiev';
 
 CREATE TABLE IF NOT EXISTS images
 (
-    id        serial PRIMARY KEY,
-    name      varchar(255) NOT NULL,
-    image_url varchar(255) NOT NULL UNIQUE
+    id         serial PRIMARY KEY,
+    name       varchar(255) NOT NULL,
+    image_url  varchar(255) NOT NULL UNIQUE,
+    photo_data BYTEA
 );
 
 INSERT INTO images (name, image_url)
@@ -196,8 +197,8 @@ VALUES ('fight.jpeg', '/images/fight.jpeg'),
 
 -- Тестові користувачі
 INSERT INTO users (username, password, email, is_activated, image_id)
-VALUES ('misha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true,1),
-       ('sasha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'afgfduzbf@yomail.info', true,1),
+VALUES ('misha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'turictscol40@gmail.com', true, 1),
+       ('sasha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'afgfduzbf@yomail.info', true, 1),
        ('mirko', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'knwkmwfqf@emlpro.com', true, 40),
        ('pili', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'fya2k7p6@flymail.tk', true, 41),
        ('aldo', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'ayccneirg@emltmp.com', true, 42),
@@ -209,7 +210,7 @@ VALUES ('misha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC',
        ('alma', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'iebymwfqf@emlpro.com', true, 47),
        ('eliora', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'fpfhktknf@emlhub.com', true, 48),
        ('catrine', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'j1jf745x@spymail.one', true, 49),
-       ('brandon', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'd0dod1wedak3@10mail.xyz', true,1);
+       ('brandon', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'd0dod1wedak3@10mail.xyz', true, 1);
 
 
 -- Тестові продавці

@@ -1,7 +1,13 @@
 export const INSERT_IMAGE = `
-    INSERT INTO images (name, image_url)
-    VALUES ($1, $2)
+    INSERT INTO images (name, image_url, photo_data)
+    VALUES ($1, $2, $3)
     returning *
+`
+
+export const GET_IMAGE_BY_FILENAME = `
+    SELECT *
+    FROM images
+    WHERE name = $1
 `
 
 export const DELETE_IMAGE_BY_ID = `

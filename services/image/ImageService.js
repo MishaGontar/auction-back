@@ -1,6 +1,11 @@
 import path from "path";
 import fs from "node:fs";
-import {DELETE_IMAGE_BY_ID, DELETE_IMAGE_BY_URL, INSERT_IMAGE} from "../../databaseSQL/image/ImageSqlQuery.js";
+import {
+    DELETE_IMAGE_BY_ID,
+    DELETE_IMAGE_BY_URL,
+    GET_IMAGE_BY_FILENAME,
+    INSERT_IMAGE
+} from "../../databaseSQL/image/ImageSqlQuery.js";
 import {deleteFileByPath, getRowsOrThrowException} from "../../utils.js";
 import {DELETE_LOT_IMAGES_BY_LOT_ID, INSERT_LOT_IMAGE} from "../../databaseSQL/lot/LotSqlQuery.js";
 import Error404 from "../../exceptions/Error404.js";
@@ -23,7 +28,8 @@ class ImageService {
     async createImage(db, file) {
         const {filename} = file;
         const url = `/images/${filename}`
-        const result = await db.query(INSERT_IMAGE, [filename, url]);
+        const fileBytes = fs.readFileSync(file.path);
+        const result = await db.query(INSERT_IMAGE, [filename, url, fileBytes]);
         return getRowsOrThrowException(result, "Не змогли створити зображення")[0];
     }
 
@@ -54,6 +60,11 @@ class ImageService {
 
     async getImageUploadPath(filename) {
         return await this.getImagePath(filename, '/images/uploads')
+    }
+
+    async getImageBytes(db,filename) {
+        const result = await db.query(GET_IMAGE_BY_FILENAME, [filename]);
+        return getRowsOrThrowException(result, "Не змогли знайти зображення")[0]
     }
 
     async getImagePath(filename, fileDir) {
