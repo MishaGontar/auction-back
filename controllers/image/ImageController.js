@@ -2,7 +2,6 @@ import fs from 'fs';
 import ImageService from '../../services/image/ImageService.js';
 import {getErrorResponse} from "../../utils.js";
 import Error404 from "../../exceptions/Error404.js";
-import sharp from "sharp";
 
 class ImageController {
     async getUploadImage(req, res) {
