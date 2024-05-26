@@ -7,11 +7,12 @@ import Error403 from "../../exceptions/Error403.js";
 import authService from "../../services/auth/AuthService.js";
 
 class UserController {
-    getUser(req, res) {
+    async getUser(req, res) {
         try {
             const {user} = req;
-            delete user.password;
-            return res.status(200).send(user)
+            const current_user = await UserService.getUserByUsernameOrEmail(req.db, user.username);
+            delete current_user.password;
+            return res.status(200).send(current_user)
         } catch (e) {
             console.log("Error during getUsername ", e)
             return res.status(400).send({message: 'Не змогли отримати користувача'})

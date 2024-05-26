@@ -2,6 +2,7 @@ import fs from 'fs';
 import ImageService from '../../services/image/ImageService.js';
 import {getErrorResponse} from "../../utils.js";
 import Error404 from "../../exceptions/Error404.js";
+import sharp from "sharp";
 
 class ImageController {
     async getUploadImage(req, res) {
@@ -25,7 +26,6 @@ class ImageController {
                 const type = extension === "jpg" ? "jpeg" : extension;
                 res.writeHead(200, {'Content-Type': `image/${type}`});
                 res.end(photo.photo_data);
-
             }
         } catch (e) {
             console.error(e);
