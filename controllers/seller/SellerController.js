@@ -4,6 +4,7 @@ import AuthService from "../../services/auth/AuthService.js";
 import EmailService from "../../services/email/EmailService.js";
 import AuctionService from "../../services/auction/AuctionService.js";
 import Error404 from "../../exceptions/Error404.js";
+import UserService from "../../services/user/UserService.js";
 
 class SellerController {
     async handleSellerForm(req, res) {
@@ -77,7 +78,7 @@ class SellerController {
         }
     }
 
-    async checkAuctionAndSellerIds(req, res, next) {
+    async checkSellerIds(req, res, next) {
         const seller_id = req.user.seller_id
         const auction_seller_id = +req.body.seller_id
 
@@ -106,6 +107,39 @@ class SellerController {
             return getErrorResponse(res, e)
         }
     }
+
+    async blockUserById(req, res) {
+        try {
+            const user_id = req.params.id
+            await UserService.blockUserForSeller(req.db, user_id, req.user.seller_id)
+            return res.status(202).send({message: "Користувач заблокований"})
+        } catch (e) {
+            console.error('Error during block user by seller :', e);
+            return getErrorResponse(res, e)
+        }
+    }
+
+    async unblockUserById(req, res) {
+        try {
+            const user_id = req.params.id
+            await UserService.unblockUserForSeller(req.db, user_id, req.user.seller_id)
+            return res.status(202).send({message: "Користувач розблакований"})
+        } catch (e) {
+            console.error('Error during unblock user :', e);
+            return getErrorResponse(res, e)
+        }
+    }
+
+    async getAllBlockUsers(req, res) {
+        try {
+            const users = await UserService.getAllBlockedUsersBySeller(req.db, req.user.seller_id)
+            return res.status(200).send({users: users})
+        } catch (e) {
+            console.error('Error during get all blocked users :', e);
+            return getErrorResponse(res, e)
+        }
+    }
+
 }
 
 export default new SellerController()

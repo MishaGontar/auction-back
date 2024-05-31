@@ -17,4 +17,8 @@ export default function applyAdminRoutes(app) {
     app.get("/lot/images/:id", LotController.getLotImages)
     app.post("/seller/2", SellerController.acceptSeller)
     app.post("/seller/3", SellerController.rejectSeller)
+
+    app.get("/blocked/users", UserController.getAllBlockedUsers)
+    app.post("/unblock/user/:id", UserController.unblockUserById)
+    app.post("/block/user/:id", UserController.blockUserById)
 }

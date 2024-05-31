@@ -62,7 +62,15 @@ class AuthController {
         }
     }
 
+    getToken(req) {
+        const authHeader = req.headers['authorization']
+        return authHeader && authHeader.split(' ')[1]
+    }
 
+    getUserByToken(req) {
+        const token = this.getToken(req)
+        return token !== "undefined" ? jwt.verify(token, process.env.TOKEN_SECRET) : null
+    }
 }
 
 export default new AuthController();

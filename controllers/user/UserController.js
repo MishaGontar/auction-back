@@ -5,12 +5,18 @@ import AuctionService from "../../services/auction/AuctionService.js";
 import ImageService from "../../services/image/ImageService.js";
 import Error403 from "../../exceptions/Error403.js";
 import authService from "../../services/auth/AuthService.js";
+import SellerService from "../../services/seller/SellerService.js";
 
 class UserController {
     async getUser(req, res) {
         try {
             const {user} = req;
-            const current_user = await UserService.getUserByUsernameOrEmail(req.db, user.username);
+            await UserService.throwIfUserBlocked(req.db, user.user_id)
+
+            let current_user = await SellerService.findSellerByUserId(req.db, user.user_id);
+            if (!current_user) {
+                current_user = await UserService.getUserByUsernameOrEmail(req.db, user.username);
+            }
             delete current_user.password;
             return res.status(200).send(current_user)
         } catch (e) {
@@ -84,6 +90,38 @@ class UserController {
         } catch (e) {
             console.error(`updateUserPhoto `, e)
             deleteRequestFiles(req)
+            return getErrorResponse(res, e)
+        }
+    }
+
+    async blockUserById(req, res) {
+        try {
+            const user_id = req.params.id
+            await UserService.blockUserById(req.db, user_id)
+            return res.status(202).send({});
+        } catch (e) {
+            console.error('Error during block user :', e);
+            return getErrorResponse(res, e)
+        }
+    }
+
+    async unblockUserById(req, res) {
+        try {
+            const user_id = req.params.id
+            await UserService.unblockUserById(req.db, user_id)
+            return res.status(202).send({});
+        } catch (e) {
+            console.error('Error during unblock user :', e);
+            return getErrorResponse(res, e)
+        }
+    }
+
+    async getAllBlockedUsers(req, res) {
+        try {
+            const users = await UserService.getAllBlockedUsers(req.db)
+            return res.status(200).send(users)
+        } catch (e) {
+            console.error('Error during get all blocked users :', e);
             return getErrorResponse(res, e)
         }
     }

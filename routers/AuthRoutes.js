@@ -26,18 +26,21 @@ export function applyAuthRoutes(app) {
 
     app.post("/create/auction", uploadTemp.single('image'), AuctionController.createAuction)
     app.post("/update/auction", uploadTemp.single('image'),
-        SellerController.checkAuctionAndSellerIds,
+        SellerController.checkSellerIds,
         AuctionController.updateAuction
     )
     app.delete("/delete/auction/:id", AuctionController.deleteAuction)
 
     app.post("/create/lot", uploadTemp.array('image', 3),
-        SellerController.checkAuctionAndSellerIds,
+        SellerController.checkSellerIds,
         LotController.createLot
     )
     app.post("/update/lot/:id", uploadTemp.array('image', 3),
-        SellerController.checkAuctionAndSellerIds,
+        SellerController.checkSellerIds,
         LotController.updateLotById)
+
+    app.post("/seller/users/blocked", SellerController.checkSellerIds, SellerController.getAllBlockUsers)
+    app.post("/seller/users/unblock/:id", SellerController.checkSellerIds, SellerController.unblockUserById)
 
     app.delete("/delete/lot/:id", LotController.deleteLotById)
     app.delete("/delete/lot/:id/bet/:bet_id", LotController.deleteLotBetByLotId)

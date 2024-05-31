@@ -72,3 +72,56 @@ export const DELETE_USER_BY_ID = `
     where id = $1
     returning *
 `
+
+export const BLOCK_USER_BY_ID = `
+    INSERT INTO blocked_users (user_id)
+    VALUES ($1)
+    returning *
+`
+
+export const SELECT_BLOCK_USERS = `
+    SELECT u.id, u.username, u.email, u.image_id, u.is_activated, i.image_url
+    FROM users u
+             JOIN blocked_users b ON u.id = b.user_id
+             JOIN images i ON u.image_id = i.id;
+`
+
+export const SELECT_BLOCK_USER_BY_ID = `
+    SELECT *
+    FROM blocked_users
+    where user_id = $1
+`
+
+export const UNBLOCK_USER_BY_ID = `
+    DELETE
+    FROM blocked_users
+    where user_id = $1
+    returning *`
+
+export const BLOCK_USER_FOR_SELLER_BY_ID = `
+    INSERT INTO blocked_seller_users (seller_id, user_id)
+    VALUES ($1, $2)
+    returning *;
+`
+
+export const SELECT_BLOCK_SELLER_USERS = `
+    SELECT bsu.user_id, u.username, i.image_url
+    FROM users u
+             JOIN blocked_seller_users bsu ON u.id = bsu.user_id
+             JOIN sellers s ON bsu.seller_id = s.id
+             JOIN images i ON u.image_id = i.id;
+`
+
+export const SELECT_BLOCK_SELLER_USERS_BY_SELLER_ID = `
+    SELECT *
+    from blocked_seller_users
+    where user_id = $1
+      and seller_id = $2
+`
+export const UNBLOCK_USER_FOR_SELLER_BY_ID = `
+    DELETE
+    FROM blocked_seller_users
+    where seller_id = $1
+      and user_id = $2
+    returning *
+`

@@ -3,6 +3,7 @@ import {AUTH_DATA_REQUIRED_MSG, AUTH_FAILED_MSG, AUTH_TOKEN_FAILED_MSG} from "..
 import AuthService from "../../services/auth/AuthService.js";
 import AdminService from "../../services/admin/AdminService.js";
 import jwt from "jsonwebtoken";
+import UserService from "../../services/user/UserService.js";
 
 class AdminController {
 

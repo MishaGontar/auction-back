@@ -2,6 +2,8 @@ import ImageService from "../../services/image/ImageService.js";
 import {checkFormDataWithFile, deleteRequestFiles, getErrorResponse} from "../../utils.js";
 import LotService from "../../services/lot/LotService.js";
 import LotBetService from "../../services/lot/LotBetService.js";
+import AuthController from "../auth/AuthController.js";
+import UserService from "../../services/user/UserService.js";
 
 class LotController {
     async createLot(req, res) {
@@ -46,8 +48,12 @@ class LotController {
             const images = await LotService.getLotImagesByLotId(req.db, lotId)
             const bets = await LotBetService.getLotBetsByLotId(req.db, lotId)
             const winner = await LotService.getWinnerByLotId(req.db, lotId)
-
-            return res.status(200).send({lot, images, bets, winner: winner.length > 0 ? winner[0] : null})
+            const user = AuthController.getUserByToken(req);
+            let is_blocked = false;
+            if (user !== null) {
+                is_blocked = await UserService.isBlockedUserBySeller(req.db, user.user_id, lot.seller_id);
+            }
+            return res.status(200).send({lot, images, bets, winner: winner.length > 0 ? winner[0] : null, is_blocked})
         } catch (e) {
             console.error(`getAuctionLots error: `, e)
             return getErrorResponse(res, e)

@@ -10,6 +10,8 @@ DROP table if exists lot_bet CASCADE;
 DROP table if exists lot_winner CASCADE;
 DROP table if exists lot_images CASCADE;
 DROP table if exists images CASCADE;
+DROP table if exists blocked_users CASCADE;
+DROP table if exists blocked_seller_users CASCADE;
 
 
 SET timezone TO 'Europe/Kiev';
@@ -137,6 +139,19 @@ CREATE TABLE IF NOT EXISTS lot_images
     img_id integer NOT NULL REFERENCES images (id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS blocked_users
+(
+    id      SERIAL PRIMARY KEY,
+    user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS blocked_seller_users
+(
+    id        SERIAL PRIMARY KEY,
+    seller_id integer NOT NULL REFERENCES sellers (id) ON DELETE CASCADE,
+    user_id   integer NOT NULL REFERENCES users (id) ON DELETE CASCADE
+);
+
 ---TEST DATA ----
 
 INSERT INTO images (name, image_url)
@@ -201,7 +216,7 @@ VALUES ('misha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC',
        ('sasha', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'afgfduzbf@yomail.info', true, 1),
        ('mirko', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'knwkmwfqf@emlpro.com', true, 40),
        ('pili', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'fya2k7p6@flymail.tk', true, 41),
-       ('aldo', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'ayccneirg@emltmp.com', true, 42),
+       ('lili', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'ayccneirg@emltmp.com', true, 42),
        ('marta', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'afqfonfodfbvjo@dropmail.me', true,
         43),
        ('ciel', '$2b$10$aNs79TF/NXKjqdma3NMinOW0AmDFmHcSQosn0sQI92sQzq3rf4yaC', 'qkbdktknf@emlhub.com', true, 44),
@@ -221,7 +236,7 @@ VALUES (3, 'Іван Петренко', 'instagram:IvanPetrenko', 1, 'вул. Г
        (4, 'Олена Смирнова', 'twitter:OlenaSmirnova', 3, 'вул. Ялинкова 456, Селище',
         'Пристрасно захоплюється вінтажними колекціями.',
         '234-567-8901'),
-       (5, 'Лілія Іванова', 'instagram:BohdanIvanov', 2, 'вул. Дубова 789, Село',
+       (5, 'Лілія Лелека', 'instagram:BohdanIvanov', 2, 'вул. Дубова 789, Село',
         'Поціновувач мистецтва з акцентом на сучасний живопис.', '345-678-9012'),
        (6, 'Іван Браун', 'twitter:AnastasiaBraun', 2, 'вул. Соснова 987, Передмістя',
         'Відданий продавець рідкісних книг та рукописів.', '456-789-0123'),

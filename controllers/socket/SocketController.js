@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import LotBetService from "../../services/lot/LotBetService.js";
 import LotService from "../../services/lot/LotService.js";
 import Error403 from "../../exceptions/Error403.js";
+import UserService from "../../services/user/UserService.js";
 
 class SocketController {
     constructor() {
@@ -31,6 +32,7 @@ class SocketController {
         const query = socket.handshake.query;
         socket.lotId = +query.lotId;
         socket.user = JSON.parse(query.user);
+        socket.sellerId = +query.sellerId;
         socket.is_owner = query.is_owner === "true" ?? "false";
         const userId = socket.user.user_id;
         console.warn(`User with ID: ${userId} connected to lot ID: ${socket.lotId} , is_owner = ${socket.is_owner}`);
@@ -39,7 +41,8 @@ class SocketController {
 
         socket.on("updatedBet", (new_amount) => this.handleBet(socket, io, new_amount));
         socket.on("updatedBets", () => this.handleUpdatedBets(socket, io));
-        socket.on("finishedLot", () => this.handleFinishLot(socket, io))
+        socket.on("blockUser", (id) => this.handleBlockUser(socket, io, id));
+        socket.on("finishedLot", () => this.handleFinishLot(socket, io));
         socket.on("disconnect", () => console.log(`Client with ID: ${socket.user.user_id} disconnected from lot ID: ${socket.lotId}`));
     }
 
@@ -57,6 +60,22 @@ class SocketController {
         } catch (e) {
             console.error(e);
             console.warn("Error while SOCKET handleBet");
+        }
+    }
+
+    async handleBlockUser(socket, io, id) {
+        try {
+            const user_id = +id;
+            const bets = await LotBetService.getLotBetsByLotId(socket.db, socket.lotId);
+            const user_bets = bets.filter(b => b.user_id === user_id);
+            for (const bet of user_bets) {
+                await LotBetService.deleteBetLotByIdAndLotId(socket.db, bet.bet_id, socket.lotId)
+            }
+            await UserService.blockUserForSeller(socket.db, user_id, socket.sellerId);
+            this.emitWithLotId(io, socket.lotId, "blockUser")
+        } catch (e) {
+            console.error(e);
+            console.warn("Error while SOCKET handleBlockUser");
         }
     }
 
