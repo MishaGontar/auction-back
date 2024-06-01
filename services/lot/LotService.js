@@ -125,7 +125,11 @@ class LotService {
 
     async getAllLots(db) {
         const result = await db.query(SELECT_ALL_LOTS)
-        for(const lot of result.rows) {
+        for (const lot of result.rows) {
+            if (lot.lot_status_id === 4) {
+                const winners = await this.getWinnerByLotId(db, lot.lot_id)
+                lot.winner = winners[0]
+            }
             lot.images = await this.getLotImagesByLotId(db, lot.lot_id)
         }
         return result.rows

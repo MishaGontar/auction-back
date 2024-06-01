@@ -7,7 +7,8 @@ import {
     SELECT_AUCTION_BY_SELLER_ID,
     SELECT_ONLY_AUCTION_CREATE_STATUS,
     UPDATE_AUCTION_BY_ID,
-    UPDATE_AUCTION_BY_ID_WITHOUT_IMG
+    UPDATE_AUCTION_BY_ID_WITHOUT_IMG,
+    UPDATE_FINISHED_AUCTION
 } from "../../databaseSQL/auction/AuctionSqlQuery.js";
 import {getRowsOrThrowException} from "../../utils.js";
 import LotService from "../lot/LotService.js";
@@ -56,6 +57,9 @@ class AuctionService {
         ];
 
         const result = await db.query(sqlQuery, values);
+        if (+auction_status_id === 5) {
+            await db.query(UPDATE_FINISHED_AUCTION, [auction_id])
+        }
         return getRowsOrThrowException(result, "Не вдалося оновити аукціон")[0]
     }
 

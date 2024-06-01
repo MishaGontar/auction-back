@@ -83,7 +83,7 @@ class AuctionController {
         try {
             const auctions = await AuctionService.getAllAuctions(req.db)
             const filteredAuctions = auctions
-                .filter((auction) => auction.auction_status_id === 1 || auction.auction_status_id === 4)
+                .filter((auction) => auction.auction_status_id === 1 || auction.auction_status_id === 5)
             return res.status(200).send({auctions: filteredAuctions})
         } catch (e) {
             console.error('getAllAvailableAuction', e)
@@ -99,7 +99,7 @@ class AuctionController {
                 if (auction.seller_id === seller_id) {
                     return true;
                 } else {
-                    return auction.auction_status_id === 1 || auction.auction_status_id === 4;
+                    return auction.auction_status_id === 1 || auction.auction_status_id === 5;
                 }
             });
             return res.status(200).send({auctions: filteredAuctions})
@@ -109,7 +109,7 @@ class AuctionController {
         }
     }
 
-    async getAllAuctions(req, res) {
+    async getAllAuctionsAndLots(req, res) {
         try {
             const auctions = await AuctionService.getAllAuctions(req.db)
             const lots = await LotService.getAllLots(req.db);

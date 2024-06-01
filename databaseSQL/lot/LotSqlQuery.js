@@ -18,6 +18,7 @@ export const SELECT_LOT_BY_ID = `
            lots.bank_card_number AS lot_bank_card_number,
            lots.monobank_link    AS lot_monobank_link,
            lots.date_created     AS lot_date_created,
+           lots.date_finished    AS lot_date_finished,
            sellers.id            AS seller_id,
            sellers.full_name     AS seller_full_name,
            auctions.id           AS auction_id,
@@ -119,7 +120,8 @@ export const SELECT_WINNER_BY_LOT_ID = `
 
 export const UPDATE_LOT_STATUS = `
     UPDATE lots
-    SET status_id = $2
+    SET status_id     = $2,
+        date_finished = CURRENT_TIMESTAMP
     WHERE id = $1;
 `
 

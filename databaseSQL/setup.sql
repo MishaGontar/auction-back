@@ -87,17 +87,19 @@ INSERT INTO auction_status (id, name)
 VALUES (1, 'відкритий'),
        (2, 'тільки за посиланням'),
        (3, 'закритий'),
-       (4, 'завершений');
+       (4, 'продано'),
+       (5, 'завершений');
 
 CREATE TABLE IF NOT EXISTS auctions
 (
-    id           SERIAL PRIMARY KEY,
-    name         varchar(255)                        NOT NULL,
-    description  TEXT                                NOT NULL,
-    seller_id    integer                             NOT NULL REFERENCES sellers (id) ON DELETE CASCADE,
-    status_id    integer   DEFAULT (1)               NOT NULL REFERENCES auction_status (id) ON DELETE CASCADE,
-    img_id       integer REFERENCES images (id),
-    date_created timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
+    id            SERIAL PRIMARY KEY,
+    name          varchar(255)                        NOT NULL,
+    description   TEXT                                NOT NULL,
+    seller_id     integer                             NOT NULL REFERENCES sellers (id) ON DELETE CASCADE,
+    status_id     integer   DEFAULT (1)               NOT NULL REFERENCES auction_status (id) ON DELETE CASCADE,
+    img_id        integer REFERENCES images (id),
+    date_created  timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    date_finished timestamp
 );
 
 
@@ -112,7 +114,8 @@ CREATE TABLE IF NOT EXISTS lots
     amount           integer                             NOT NULL DEFAULT 0,
     bank_card_number varchar(19),
     monobank_link    varchar(255),
-    date_created     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
+    date_created     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    date_finished    timestamp
 );
 
 CREATE TABLE IF NOT EXISTS lot_bet
@@ -141,15 +144,17 @@ CREATE TABLE IF NOT EXISTS lot_images
 
 CREATE TABLE IF NOT EXISTS blocked_users
 (
-    id      SERIAL PRIMARY KEY,
-    user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE
+    id           SERIAL PRIMARY KEY,
+    user_id      integer                             NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    date_created timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS blocked_seller_users
 (
-    id        SERIAL PRIMARY KEY,
-    seller_id integer NOT NULL REFERENCES sellers (id) ON DELETE CASCADE,
-    user_id   integer NOT NULL REFERENCES users (id) ON DELETE CASCADE
+    id           SERIAL PRIMARY KEY,
+    seller_id    integer                             NOT NULL REFERENCES sellers (id) ON DELETE CASCADE,
+    user_id      integer                             NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    date_created timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 ---TEST DATA ----

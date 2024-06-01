@@ -105,7 +105,7 @@ export const BLOCK_USER_FOR_SELLER_BY_ID = `
 `
 
 export const SELECT_BLOCK_SELLER_USERS = `
-    SELECT bsu.user_id, u.username, i.image_url
+    SELECT bsu.user_id, u.username, i.image_url, bsu.date_created
     FROM users u
              JOIN blocked_seller_users bsu ON u.id = bsu.user_id
              JOIN sellers s ON bsu.seller_id = s.id

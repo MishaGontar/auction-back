@@ -7,6 +7,7 @@ export const INSERT_AUCTION = `
 export const SELECT_ALL_AUCTION_STATUS = `
     SELECT *
     from auction_status
+    where name != 'продано'
 `
 
 export const SELECT_AUCTION_BY_SELLER_ID = `
@@ -14,6 +15,7 @@ export const SELECT_AUCTION_BY_SELLER_ID = `
            a.name        AS auction_name,
            a.description AS auction_description,
            a.date_created,
+           a.date_finished,
            rs.name       AS auction_status,
            rs.id         AS auction_status_id,
            i.image_url   AS auction_img_path,
@@ -26,13 +28,15 @@ export const SELECT_AUCTION_BY_SELLER_ID = `
          images i ON a.img_id = i.id
              JOIN
          sellers s ON a.seller_id = s.id
-    WHERE a.seller_id = $1;
+    WHERE a.seller_id = $1
+    ORDER BY date_created DESC;
 `
 
 export const SELECT_AUCTION_BY_ID = `
     SELECT a.id          AS auction_id,
            a.name        AS auction_name,
            a.description AS auction_description,
+           a.date_finished,
            rs.name       AS auction_status,
            rs.id         AS auction_status_id,
            ai.image_url  AS auction_img_path,
@@ -48,36 +52,47 @@ export const SELECT_AUCTION_BY_ID = `
     WHERE a.id = $1;
 `;
 export const SELECT_ALL_AUCTION = `
-    SELECT r.id          AS auction_id,
-           r.name        AS auction_name,
-           r.description AS auction_description,
+    SELECT a.id          AS auction_id,
+           a.name        AS auction_name,
+           a.description AS auction_description,
+           a.date_created,
+           a.date_finished,
            rs.name       AS auction_status,
            rs.id         AS auction_status_id,
            i.image_url   AS auction_img_path,
-           r.seller_id   AS seller_id,
+           a.seller_id   AS seller_id,
            s.full_name   AS seller_name
-    FROM auctions r
+    FROM auctions a
              JOIN
-         auction_status rs ON r.status_id = rs.id
+         auction_status rs ON a.status_id = rs.id
              LEFT JOIN
-         images i ON r.img_id = i.id
+         images i ON a.img_id = i.id
              JOIN
-         sellers s ON r.seller_id = s.id;
+         sellers s ON a.seller_id = s.id ;
 `
 export const UPDATE_AUCTION_BY_ID = `
     UPDATE auctions
     SET name        = $1,
         description = $2,
         status_id   = $3,
-        img_id      = $4
+        img_id      = $4,
+        date_finished = null
     WHERE id = $5
+    returning *
+`
+
+export const UPDATE_FINISHED_AUCTION = `
+    UPDATE auctions
+    SET date_finished = CURRENT_TIMESTAMP
+    WHERE id = $1
     returning *
 `
 export const UPDATE_AUCTION_BY_ID_WITHOUT_IMG = `
     UPDATE auctions
     SET name        = $1,
         description = $2,
-        status_id   = $3
+        status_id   = $3,
+        date_finished = null
     WHERE id = $4
     returning *
 `
@@ -90,5 +105,6 @@ export const DELETE_AUCTION_BY_ID = `
 export const SELECT_ONLY_AUCTION_CREATE_STATUS = `
     SELECT *
     from auction_status
-    WHERE name != 'завершений'
+    WHERE name != 'продано'
+      and name != 'завершений'
 `

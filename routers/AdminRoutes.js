@@ -13,7 +13,7 @@ export default function applyAdminRoutes(app) {
     app.get("/users", UserController.getAllUsers)
     app.delete("/user/delete/:id/:sellerId", UserController.deleteUserByUrl)
     app.get("/sellers/status", SellerController.getSellersStatuses)
-    app.get("/auctions_and_lots/all", AuctionController.getAllAuctions)
+    app.get("/auctions_and_lots/all", AuctionController.getAllAuctionsAndLots)
     app.get("/lot/images/:id", LotController.getLotImages)
     app.post("/seller/2", SellerController.acceptSeller)
     app.post("/seller/3", SellerController.rejectSeller)
