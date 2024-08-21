@@ -125,3 +125,10 @@ export const UNBLOCK_USER_FOR_SELLER_BY_ID = `
       and user_id = $2
     returning *
 `
+
+export const DELETE_INACTIVE_OR_MARKED_USERS=`
+    DELETE
+    FROM users
+    WHERE username LIKE '%delete_me%'
+       OR is_activated = false;
+`

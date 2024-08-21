@@ -1,6 +1,7 @@
 import {
     BLOCK_USER_BY_ID,
     BLOCK_USER_FOR_SELLER_BY_ID,
+    DELETE_INACTIVE_OR_MARKED_USERS,
     DELETE_USER_BY_ID,
     SELECT_ALL_USERS,
     SELECT_BLOCK_SELLER_USERS,
@@ -123,9 +124,15 @@ class UserService {
 
     async throwIfUserBlocked(db, user_id) {
         const isBlocked = await this.isBlockedUserBySystem(db, user_id)
-        if(isBlocked){
+        if (isBlocked) {
             throw new Error403("Користувач заблокований")
         }
+    }
+
+    async deleteInactiveOrMarkedUsers(db) {
+        console.log("Deleting inactive or marked users");
+        const result = await db.query(DELETE_INACTIVE_OR_MARKED_USERS);
+        return result.rows
     }
 }
 

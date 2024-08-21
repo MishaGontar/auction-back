@@ -36,7 +36,7 @@ class EmailService {
             from: process.env.GMAIL_APP_EMAIL,
             to: email,
             subject: `${EMAIL_CONFIRM_SUBJECT_MSG} ${process.env.PRODUCT_NAME}`,
-            html: `<p>${EMAIL_CONFIRM_HTML_MSG}<br/><strong >${code}</strong></p>`,
+            html: `<p>${EMAIL_CONFIRM_HTML_MSG}<br/><strong>${code}</strong></p>`,
         };
         return this.transporter.sendMail(message)
     }
